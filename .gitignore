@@ -1,0 +1,8 @@
+# IntelliJ
+*/out/
+*/lib/
+*/.idea/
+*.class
+*.iml
+LICENSE
+README.md

@@ -1,0 +1,48 @@
+1. 创建数据库和表。
+    create database test;
+
+    use test;
+
+    CREATE TABLE product_ (
+      id int(11) NOT NULL AUTO_INCREMENT,
+      name varchar(30) ,
+      price float ,
+      PRIMARY KEY (id)
+    ) DEFAULT CHARSET=UTF8;
+
+    CREATE USER 'test' IDENTIFIED BY 'test';
+
+    GRANT all privileges ON test.* TO  'test';
+
+2. 创建 hibernate 项目，并导入对应的 *.jar 文件（MySQL 文件不要遗漏）。
+
+3. 创建实体类 hibernate\src\com\hibernate\pojo\Product.java 用于映射数据库中的表product_。
+
+4. 新建一个配置文件 hibernate\src\com\hibernate\pojo\Product.hbm.xml， 用于映射Product类对应数据库中的product_表
+  注: 文件名 Product.hbm.xml P一定要大写，要和类保持一致。
+
+5. 在src目录下创建 hibernate\src\hibernate.cfg.xml，配置访问数据库要用到的驱动，url，账号密码等等。
+
+6. 创建一个Product对象，并通过hibernate把这个对象，插入到数据库中。
+    hibernate的基本步骤是：
+    1. 获取SessionFactory
+    2. 通过SessionFactory 获取一个Session
+    3. 在Session基础上开启一个事务
+    4. 通过调用Session的save方法把对象保存到数据库
+    5. 提交事务
+    6. 关闭Session
+    7. 关闭SessionFactory
+
+7. 基本原理
+   应用程序通过Hibernate把 一个 Product对象插入到数据库的product_表中
+   hibernate.cfg.xml 配置文件提供链接数据库的基本信息
+   账号 密码 驱动 数据库ip 端口
+   Product.hbm.xml 提供对象与表的映射关系
+   对应哪个表？ 什么属性，对应什么字段
+
+8. 分类
+    CREATE TABLE category (
+      id int(11) NOT NULL AUTO_INCREMENT,
+      name varchar(30) ,
+      PRIMARY KEY (id)
+    ) DEFAULT CHARSET=UTF8;
