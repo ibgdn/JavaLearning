@@ -19,10 +19,10 @@ public class TestHibernateProduct {
 //        getById(2);
 //        delete(3);
 //        update();
-        queryByLike();
+        queryByLike();    // HQL 语句 name 模糊查询
     }
 
-    // name 模糊查询
+    // HQL 语句 name 模糊查询
     private static void queryByLike(){
         String name = "iPhone";
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
@@ -30,6 +30,7 @@ public class TestHibernateProduct {
         session.beginTransaction();
 
         Query query = session.createQuery("from Product p where p.name like ?");
+        // 使用的是类的名字Product,而非表格的名字product_
         query.setString(0, "%"+name+"%");
         List<Product> productList = query.list();
         for(Product product : productList){
