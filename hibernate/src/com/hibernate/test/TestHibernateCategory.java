@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 
 /**
  * Created by Administrator on 2017/6/21.
- * 分类测试类
+ * Category test.
  */
 public class TestHibernateCategory {
     public static void main(String[] args) {

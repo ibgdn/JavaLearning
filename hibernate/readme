@@ -41,8 +41,64 @@
    对应哪个表？ 什么属性，对应什么字段
 
 8. 分类
-    CREATE TABLE category (
+    CREATE TABLE category_ (
       id int(11) NOT NULL AUTO_INCREMENT,
       name varchar(30) ,
       PRIMARY KEY (id)
     ) DEFAULT CHARSET=UTF8;
+
+9. 基础
+    TestHibernateProduct.java TestHibernateCategory.java
+10. 关系
+    TestHibernateRelation.java
+    多对一
+    product_ 添加 cid 字段
+    Ⅰ. 如果按照之前的建表语句执行，产品表里会缺少“分类 id”字段，需要执行：alter table product_ add column cid varchar(30);【参考1】
+    Ⅱ. 修改表结构后会出现“WARN: GenerationTarget encountered exception accepting command : Error executing DDL via JDBC Statement
+                    org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL via JDBC Statement”
+        修正方法：hibernate.cfg.xml 文件中修改 <property name="hbm2ddl.auto">update</property> 为 create，重新构建表结构（再次执行），
+        然后将“create”改回为“update”即可。【参考2】
+
+    多对一
+    Category 添加 Product set 集合
+
+    多对多
+    添加 User 实体类及配置文件，Product.java 添加 User set集合。
+    CREATE TABLE user_ (
+      id int(11) NOT NULL AUTO_INCREMENT,
+      name varchar(30) ,
+      product varchar(30) ,
+      PRIMARY KEY (id)
+    ) DEFAULT CHARSET=UTF8;
+    注意：如果执行出错：ERROR: Field 'id' doesn't have a default value，
+        需要创建 user_product 表（虽然可以自动创建，但是无法按照示例正常执行）。
+    CREATE TABLE user_product (
+      id int(11) NOT NULL AUTO_INCREMENT,
+      uid int(11),
+      pid int(11),
+      PRIMARY KEY (id)
+    ) DEFAULT CHARSET=UTF8;
+
+
+【参考1】
+    查看列：desc 表名;
+    修改表名：alter table t_book rename to bbb;
+    添加列：alter table 表名 add column 列名 varchar(30);
+    删除列：alter table 表名 drop column 列名;
+    修改列名MySQL： alter table bbb change nnnnn hh int;
+    修改列名Oracle：lter table bbb rename column nnnnn to hh int;
+    修改列属性：alter table t_book modify name varchar(22);
+    http://blog.csdn.net/ws84643557/article/details/6939846
+
+【参考2】
+    其实这个hibernate.hbm2ddl.auto参数的作用主要用于：自动创建|更新|验证数据库表结构。如果不是此方面的需求建议set value="none"。
+    create：
+    每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。
+    create-drop ：
+    每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
+    update：
+    最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，
+    即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等 应用第一次运行起来后才会。
+    validate ：
+    每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
+    http://www.cnblogs.com/feilong3540717/archive/2011/12/19/2293038.html

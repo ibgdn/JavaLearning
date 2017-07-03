@@ -3,10 +3,21 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.hibernate.pojo">
-    <class name="Category" table="category">
+    <class name="Category" table="category_">
         <id name="id" column="id">
             <generator class="native"/>
         </id>
         <property name="name"/>
+
+        <!--<set 用于设置一对多(多对多也是他)关系，也可以用list，设置稍复杂点，这里使用简单的set来入门。-->
+        <!--name="products" 对应 Category类中的products属性-->
+        <!--lazy="false" 表示不使用延迟加载。关于延迟加载，请参考关系的延迟加载-->
+        <!--<key column="cid" not-null="false" /> 表示外键是cid，可以为空-->
+        <!--<one-to-many class="Product" /> 表示一对多所对应的类是Product-->
+        <set name="products" lazy="false" >
+            <key column="cid" not-null="false"/>
+            <one-to-many class="Product"/>
+        </set>
+
     </class>
 </hibernate-mapping>

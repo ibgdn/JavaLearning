@@ -1,6 +1,6 @@
 # IntelliJ
 */out/
-*/lib/
+#*/lib/
 */.idea/
 *.class
 *.iml

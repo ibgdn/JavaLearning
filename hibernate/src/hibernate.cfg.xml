@@ -19,5 +19,7 @@
         <mapping resource="com/hibernate/pojo/Product.hbm.xml"/>
         <!--Category-->
         <mapping resource="com/hibernate/pojo/Category.hbm.xml"/>
+        <!--User-->
+        <mapping resource="com/hibernate/pojo/User.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

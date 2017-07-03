@@ -7,12 +7,23 @@
     <class name="Product" table="product_">
         <!--表示类Product对应表product_-->
         <id name="id" column="id">
+            <!--表示属性id,映射表里的字段id;<generator class="native"> 意味着id的自增长方式采用数据库的本地方式;
+            如果是连接oracle数据，可以指定sequnce作为id自增长方式-->
             <generator class="native"></generator>
         </id>
-        <!--表示属性id,映射表里的字段id;<generator class="native"> 意味着id的自增长方式采用数据库的本地方式;
-        如果是连接oracle数据，可以指定sequnce作为id自增长方式-->
         <property name="name"/>
         <property name="price"/>
+
+        <!--使用many-to-one 标签设置多对一关系-->
+        <!--name="category" 对应Product类中的category属性-->
+        <!--class="Category" 表示对应Category类-->
+        <!--column="cid" 表示指向 category_表的外键-->
+        <many-to-one name="category" class="Category" column="cid"/>
+
+        <set name="users" table="user_product" lazy="false">
+            <key column="pid"/>
+            <many-to-many column="uid" class="User"/>
+        </set>
     </class>
 
 </hibernate-mapping>
