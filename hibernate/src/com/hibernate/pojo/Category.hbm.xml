@@ -4,6 +4,9 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.hibernate.pojo">
     <class name="Category" table="category_">
+        <!--对于要进行二级缓存的实体类进行配置-->
+        <!--<cache usage="read-only" />-->
+
         <id name="id" column="id">
             <generator class="native"/>
         </id>
@@ -14,7 +17,16 @@
         <!--lazy="false" 表示不使用延迟加载。关于延迟加载，请参考关系的延迟加载-->
         <!--<key column="cid" not-null="false" /> 表示外键是cid，可以为空-->
         <!--<one-to-many class="Product" /> 表示一对多所对应的类是Product-->
-        <set name="products" lazy="false" >
+        <!--<set name="products" lazy="false" >-->
+
+        <!--关系延迟加载-->
+        <!--<set name="products" lazy="true" >-->
+
+        <!--级联删除-->
+        <!--<set name="products" cascade="delete" lazy="false" >-->
+
+        <!--级联修改-->
+        <set name="products" cascade="save-update" lazy="false" >
             <key column="cid" not-null="false"/>
             <one-to-many class="Product"/>
         </set>

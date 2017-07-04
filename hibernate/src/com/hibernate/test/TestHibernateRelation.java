@@ -36,7 +36,7 @@ public class TestHibernateRelation {
             session.save(user);
         }
 
-        Product product = session.get(Product.class,1);
+        Product product = session.get(Product.class,2);
         product.setUsers(users);
 
         session.getTransaction().commit();

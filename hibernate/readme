@@ -49,8 +49,7 @@
 
 9. 基础
     TestHibernateProduct.java TestHibernateCategory.java
-10. 关系
-    TestHibernateRelation.java
+10. 关系  TestHibernateRelation.java
     多对一
     product_ 添加 cid 字段
     Ⅰ. 如果按照之前的建表语句执行，产品表里会缺少“分类 id”字段，需要执行：alter table product_ add column cid varchar(30);【参考1】
@@ -79,6 +78,49 @@
       PRIMARY KEY (id)
     ) DEFAULT CHARSET=UTF8;
 
+11. 一些概念   TestHibernateSomethings.java
+    事务
+    MYSQL 表的类型必须是INNODB才支持事务
+    在Mysql中，只有当表的类型是INNODB的时候，才支持事务，所以需要把表的类型设置为INNODB,否则无法观察到事务.
+    修改表的类型为INNODB的SQL：    alter table product_ ENGINE  = innodb;
+    查看表的类型的SQL：    show table status from test;
+
+    关系延迟加载
+    修改配置文件 Category.hbm.xml 中 <set name="products" lazy="false"> 改为 <set name="products" lazy="true">，表示通过Category获取产品是延迟加载的。
+
+    级联删除
+    Category.hbm.xml 加上 <set name="products" cascade="delete" lazy="false">
+    级联修改
+    Category.hbm.xml 加上 <set name="products" cascade="save-update" lazy="false">
+
+    一级缓存
+
+    二级缓存
+    hibernate.cfg.xml 中增加对二级缓存的配置：
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+        （由于版本问题，示例使用hibernate3，本项目使用hibernate5，上一行配置无效，未实现二级缓存）
+    在src目录下，创建一个ehcache.xml用于EHCache的缓存配置：
+        <ehcache>
+            <diskStore path="java.io.tmpdir"/>
+            <defaultCache
+                maxElementsInMemory="10000"
+                eternal="false"
+                timeToIdleSeconds="120"
+                timeToLiveSeconds="120"
+                overflowToDisk="true"
+                />
+        </ehcache>
+    Category.hbm.xml 对于要进行二级缓存的实体类进行配置，增加 <cache usage="read-only" />
+
+    分页
+
+    两种获取方式
+    get() load()
+
+    两种 Session 方式
+
+
 
 【参考1】
     查看列：desc 表名;
@@ -102,3 +144,5 @@
     validate ：
     每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。
     http://www.cnblogs.com/feilong3540717/archive/2011/12/19/2293038.html
+
+【参考3】
