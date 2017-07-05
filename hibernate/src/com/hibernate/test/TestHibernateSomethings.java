@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -15,8 +17,8 @@ import java.util.List;
  * Somethings test like transaction lazy-load cascade
  */
 public class TestHibernateSomethings {
-    static Session session;
-    static Session session1;
+    static Session session_1;
+    static Session session_2;
     public static void main(String[] args) {
 //        transaction();  // 事务
 //        attributeLazyLoad(); // 属性延迟加载
@@ -29,26 +31,139 @@ public class TestHibernateSomethings {
 //        twoFunctions();  // 两种获取方式
 //        twoWaySession();  // 两种 Session 方式（同一线程）
 //        twoWaySession1();   // 两种 Session 方式（非同一线程）
-//        twoWaySession2();   //
+//        twoWaySession2();   // openSession查询时候不需要事务
+//        twoWaySession3();   // getCurrentSession 会自动关闭 Session
+//        nPlus1();   // N+1
+//        counts();   // 查询总数
+        unhappyLock();  // 不使用乐观锁
+    }
 
+
+    /*  故意创造一个场景来制造脏数据。
+            1. 通过session1得到id=1的对象 product1
+            2. 在product1原来价格的基础上增加1000
+            3. 更新product1之前，通过session2得到id=1的对象product2
+            4. 在product2原来价格的基础上增加1000
+            5. 更新product1
+            6. 更新product2
+        最后结果是product的价格只增加了1000，而不是2000*/
+    public static void unhappyLock() {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        Session session1 = sessionFactory.openSession();
+        session.beginTransaction();
+        session1.beginTransaction();
+
+        Product product = session.get(Product.class, 5);
+        System.out.println("product 原来的价格是：" + product.getPrice());
+        product.setPrice(product.getPrice() + 1000);
+
+        Product product1 = session1.get(Product.class,5);
+        product1.setPrice(product1.getPrice() + 1000);
+
+        session.update(product);
+        session1.update(product1);
+
+        session.getTransaction().commit();
+        session1.getTransaction().commit();
+
+        Product product2 = session.get(Product.class,5);
+        System.out.println("经过价格调整后，product 的价格变为：" + product2.getPrice());
+
+        session.close();
+        session1.close();
+        sessionFactory.close();
+    }
+
+    // 查询总数
+    public static void counts() {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        String name = "iPhone";
+        Query  query = session.createQuery("select count(*) from Product where name like ?");
+        query.setString(0,"%"+name+"%");
+        long total = (long) query.uniqueResult();
+        System.out.println("查询结果数据为：" + total);
+        session.close();
+        sessionFactory.close();
+    }
+
+    /*  Hibernate有缓存机制，可以通过用id作为key把product对象保存在缓存中,
+        同时hibernate也提供Query的查询方式。假设数据库中有100条记录，其中有30条记录在缓存中，
+        但是使用Query的的list方法，就会所有的100条数据都从数据库中查询，而无视这30条缓存中的记录。
+
+        N+1是什么意思呢，首先执行一条sql语句，去查询这100条记录，但是，只返回这100条记录的ID，然后再根据id,进行进一步查询。
+        如果id在缓存中，就从缓存中获取product对象了，否则再从数据库中获取*/
+    // N+1中的1，就是指只返回id的SQL语句，N指的是如果在缓存中找不到对应的数据，就到数据库中去查
+    public static void nPlus1() {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        String name = "iPhone";
+        Query query = session.createQuery("from Product p where p.name like ?");
+        query.setString(0,"%"+name+"%");
+
+        Iterator<Product> iterator = query.iterate();
+        while(iterator.hasNext()){
+            Product product = iterator.next();
+            System.out.println(product.getName());
+        }
+
+        session.getTransaction().commit();
+        session.close();
+        sessionFactory.close();
+    }
+
+    /*  getCurrentSession在提交事务后，session自动关闭,在事务提交后，试图关闭session,就会报session已经关闭的异常
+        但是此方法中未如示例中报错 */
+    public static void twoWaySession3() {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        session.get(Product.class,5);
+        session.getTransaction().commit();
+
+        session.close();
+        sessionFactory.close();
     }
 
     // openSession查询时候不需要事务
-    /*如果是做增加，修改，删除是必须放在事务里进行的。 但是如果是查询或者get，那么对于openSession而言就不需要放在事务中进行*/
+    /*  如果是做增加，修改，删除是必须放在事务里进行的。 但是如果是查询或者get，那么对于openSession而言就不需要放在事务中进行
+        对于getCurrentSession而言所有操作都必须放在事务中，甚至于查询和get都需要事务。没有放在事务中，就会导致异常产生 */
+    public static void twoWaySession2() {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+        System.out.println("openSesssion 的查询操作可以不放在事务中执行。");
+        session.get(Product.class,5);
+        session.close();
+
+        Session session2 = sessionFactory.getCurrentSession();
+        System.out.println("getCurrentSession 的任何操作都需要放到事务中执行，否则会导致异常。");
+        // Exception in thread "main" org.hibernate.HibernateException: get is not valid without active transaction
+        session2.get(Product.class,5);
+        session2.close();
+
+        sessionFactory.close();
+    }
 
     public static void twoWaySession1() {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
         Thread thread = new Thread(){
             public void run(){
-                session = sessionFactory.getCurrentSession();
+                session_1 = sessionFactory.getCurrentSession();
             }
         };
         thread.start();
 
         Thread thread1 = new Thread(){
             public void run(){
-                session1 = sessionFactory.getCurrentSession();
+                session_2 = sessionFactory.getCurrentSession();
             }
         };
         thread1.start();
@@ -61,7 +176,7 @@ public class TestHibernateSomethings {
         }
 
         // 如果是不同线程，每次获取的都是不同的Session
-        System.out.println("多线程调用 getCurrentSession() 方法是否是同一个 Session 对象：" + (session == session1));
+        System.out.println("多线程调用 getCurrentSession() 方法是否是同一个 Session 对象：" + (session_1 == session_2));
     }
 
     /*  Hibernate有两种方式获得session,分别是：openSession和getCurrentSession
@@ -150,7 +265,6 @@ public class TestHibernateSomethings {
         session.close();
         sessionFactory.close();
     }
-
 
     /*  配置之前的情况
         Hibernate的一级缓存是在Session上，二级缓存是在SessionFactory上。

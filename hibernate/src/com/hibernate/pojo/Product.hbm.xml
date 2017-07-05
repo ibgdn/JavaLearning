@@ -11,6 +11,10 @@
             如果是连接oracle数据，可以指定sequnce作为id自增长方式-->
             <generator class="native"></generator>
         </id>
+        
+        <!-- version元素必须紧跟着id后面，否则会出错。-->
+        <version name="version" column="ver" type="int"></version>
+        
         <property name="name"/>
         <property name="price"/>
 

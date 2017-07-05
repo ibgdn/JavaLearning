@@ -12,6 +12,15 @@ public class Product {
     private float price;
     private Category category;
     private Set<User> users;
+    private int version;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
     public Set<User> getUsers() {
         return users;

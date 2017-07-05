@@ -116,10 +116,20 @@
     分页
 
     两种获取方式
-    get() load()
+      get() load()
 
     两种 Session 方式
 
+    N+1
+
+    查询总数
+
+    乐观锁
+      修改 Product.java 增加version属性
+      修改配置文件 Product.hbm.xml <version name="version" column="ver" type="int"></version>
+      增加一个version字段，用于版本信息控制。这就是乐观锁的核心机制。
+      比如session1获取product1的时候，version=1。 那么session1更新product1的时候，就需要确保version还是1才可以进行更新，并且更新结束后，把version改为2。
+      注意： version元素必须紧跟着id后面，否则会出错。
 
 
 【参考1】
