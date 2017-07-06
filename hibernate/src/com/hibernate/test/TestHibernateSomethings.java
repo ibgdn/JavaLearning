@@ -35,7 +35,22 @@ public class TestHibernateSomethings {
 //        twoWaySession3();   // getCurrentSession 会自动关闭 Session
 //        nPlus1();   // N+1
 //        counts();   // 查询总数
-        unhappyLock();  // 不使用乐观锁
+//        happyLock();  // 使不使用乐观锁，都是同一套代码
+        c3p0();
+    }
+
+    /*  建立数据库连接时比较消耗时间的，所以通常都会采用数据库连接池的技术来建立多条数据库连接，并且在将来持续使用，从而节约掉建立数据库连接的时间。
+        hibernate本身是提供了数据库连接池的，但是hibernate官网也不推荐使用他自带的数据库连接池。一般都会使用第三方的数据库连接池。*/
+    public static void c3p0() {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.createQuery("from Category").list();
+
+        session.getTransaction().commit();
+        session.close();
+        sessionFactory.close();
     }
 
 
@@ -47,7 +62,7 @@ public class TestHibernateSomethings {
             5. 更新product1
             6. 更新product2
         最后结果是product的价格只增加了1000，而不是2000*/
-    public static void unhappyLock() {
+    public static void happyLock() {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         Session session = sessionFactory.openSession();
         Session session1 = sessionFactory.openSession();

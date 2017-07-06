@@ -19,104 +19,104 @@
 3. 创建实体类 hibernate\src\com\hibernate\pojo\Product.java 用于映射数据库中的表product_。
 
 4. 新建一个配置文件 hibernate\src\com\hibernate\pojo\Product.hbm.xml， 用于映射Product类对应数据库中的product_表
-  注: 文件名 Product.hbm.xml P一定要大写，要和类保持一致。
+   注: 文件名 Product.hbm.xml P一定要大写，要和类保持一致。
 
 5. 在src目录下创建 hibernate\src\hibernate.cfg.xml，配置访问数据库要用到的驱动，url，账号密码等等。
 
 6. 创建一个Product对象，并通过hibernate把这个对象，插入到数据库中。
-    hibernate的基本步骤是：
-    1. 获取SessionFactory
-    2. 通过SessionFactory 获取一个Session
-    3. 在Session基础上开启一个事务
-    4. 通过调用Session的save方法把对象保存到数据库
-    5. 提交事务
-    6. 关闭Session
-    7. 关闭SessionFactory
+        hibernate的基本步骤是：
+            1. 获取SessionFactory
+            2. 通过SessionFactory 获取一个Session
+            3. 在Session基础上开启一个事务
+            4. 通过调用Session的save方法把对象保存到数据库
+            5. 提交事务
+            6. 关闭Session
+            7. 关闭SessionFactory
 
 7. 基本原理
-   应用程序通过Hibernate把 一个 Product对象插入到数据库的product_表中
-   hibernate.cfg.xml 配置文件提供链接数据库的基本信息
-   账号 密码 驱动 数据库ip 端口
-   Product.hbm.xml 提供对象与表的映射关系
-   对应哪个表？ 什么属性，对应什么字段
+       应用程序通过Hibernate把 一个 Product对象插入到数据库的product_表中
+       hibernate.cfg.xml 配置文件提供链接数据库的基本信息
+       账号 密码 驱动 数据库ip 端口
+       Product.hbm.xml 提供对象与表的映射关系
+       对应哪个表？ 什么属性，对应什么字段
 
 8. 分类
-    CREATE TABLE category_ (
-      id int(11) NOT NULL AUTO_INCREMENT,
-      name varchar(30) ,
-      PRIMARY KEY (id)
-    ) DEFAULT CHARSET=UTF8;
+        CREATE TABLE category_ (
+          id int(11) NOT NULL AUTO_INCREMENT,
+          name varchar(30) ,
+          PRIMARY KEY (id)
+        ) DEFAULT CHARSET=UTF8;
 
 9. 基础
-    TestHibernateProduct.java TestHibernateCategory.java
+        TestHibernateProduct.java TestHibernateCategory.java
 10. 关系  TestHibernateRelation.java
     多对一
-    product_ 添加 cid 字段
-    Ⅰ. 如果按照之前的建表语句执行，产品表里会缺少“分类 id”字段，需要执行：alter table product_ add column cid varchar(30);【参考1】
-    Ⅱ. 修改表结构后会出现“WARN: GenerationTarget encountered exception accepting command : Error executing DDL via JDBC Statement
-                    org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL via JDBC Statement”
-        修正方法：hibernate.cfg.xml 文件中修改 <property name="hbm2ddl.auto">update</property> 为 create，重新构建表结构（再次执行），
-        然后将“create”改回为“update”即可。【参考2】
+        product_ 添加 cid 字段
+        Ⅰ. 如果按照之前的建表语句执行，产品表里会缺少“分类 id”字段，需要执行：alter table product_ add column cid varchar(30);【参考1】
+        Ⅱ. 修改表结构后会出现“WARN: GenerationTarget encountered exception accepting command : Error executing DDL via JDBC Statement
+                        org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL via JDBC Statement”
+            修正方法：hibernate.cfg.xml 文件中修改 <property name="hbm2ddl.auto">update</property> 为 create，重新构建表结构（再次执行），
+            然后将“create”改回为“update”即可。【参考2】
 
     多对一
-    Category 添加 Product set 集合
+        Category 添加 Product set 集合
 
     多对多
-    添加 User 实体类及配置文件，Product.java 添加 User set集合。
-    CREATE TABLE user_ (
-      id int(11) NOT NULL AUTO_INCREMENT,
-      name varchar(30) ,
-      product varchar(30) ,
-      PRIMARY KEY (id)
-    ) DEFAULT CHARSET=UTF8;
-    注意：如果执行出错：ERROR: Field 'id' doesn't have a default value，
-        需要创建 user_product 表（虽然可以自动创建，但是无法按照示例正常执行）。
-    CREATE TABLE user_product (
-      id int(11) NOT NULL AUTO_INCREMENT,
-      uid int(11),
-      pid int(11),
-      PRIMARY KEY (id)
-    ) DEFAULT CHARSET=UTF8;
+        添加 User 实体类及配置文件，Product.java 添加 User set集合。
+        CREATE TABLE user_ (
+          id int(11) NOT NULL AUTO_INCREMENT,
+          name varchar(30) ,
+          product varchar(30) ,
+          PRIMARY KEY (id)
+        ) DEFAULT CHARSET=UTF8;
+        注意：如果执行出错：ERROR: Field 'id' doesn't have a default value，
+            需要创建 user_product 表（虽然可以自动创建，但是无法按照示例正常执行）。
+        CREATE TABLE user_product (
+          id int(11) NOT NULL AUTO_INCREMENT,
+          uid int(11),
+          pid int(11),
+          PRIMARY KEY (id)
+        ) DEFAULT CHARSET=UTF8;
 
 11. 一些概念   TestHibernateSomethings.java
     事务
-    MYSQL 表的类型必须是INNODB才支持事务
-    在Mysql中，只有当表的类型是INNODB的时候，才支持事务，所以需要把表的类型设置为INNODB,否则无法观察到事务.
-    修改表的类型为INNODB的SQL：    alter table product_ ENGINE  = innodb;
-    查看表的类型的SQL：    show table status from test;
+        MYSQL 表的类型必须是INNODB才支持事务
+        在Mysql中，只有当表的类型是INNODB的时候，才支持事务，所以需要把表的类型设置为INNODB,否则无法观察到事务.
+        修改表的类型为INNODB的SQL：    alter table product_ ENGINE  = innodb;
+        查看表的类型的SQL：    show table status from test;
 
     关系延迟加载
-    修改配置文件 Category.hbm.xml 中 <set name="products" lazy="false"> 改为 <set name="products" lazy="true">，表示通过Category获取产品是延迟加载的。
+        修改配置文件 Category.hbm.xml 中 <set name="products" lazy="false"> 改为 <set name="products" lazy="true">，表示通过Category获取产品是延迟加载的。
 
     级联删除
-    Category.hbm.xml 加上 <set name="products" cascade="delete" lazy="false">
+        Category.hbm.xml 加上 <set name="products" cascade="delete" lazy="false">
     级联修改
-    Category.hbm.xml 加上 <set name="products" cascade="save-update" lazy="false">
+        Category.hbm.xml 加上 <set name="products" cascade="save-update" lazy="false">
 
     一级缓存
 
     二级缓存
-    hibernate.cfg.xml 中增加对二级缓存的配置：
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
-        （由于版本问题，示例使用hibernate3，本项目使用hibernate5，上一行配置无效，未实现二级缓存）
-    在src目录下，创建一个ehcache.xml用于EHCache的缓存配置：
-        <ehcache>
-            <diskStore path="java.io.tmpdir"/>
-            <defaultCache
-                maxElementsInMemory="10000"
-                eternal="false"
-                timeToIdleSeconds="120"
-                timeToLiveSeconds="120"
-                overflowToDisk="true"
-                />
-        </ehcache>
-    Category.hbm.xml 对于要进行二级缓存的实体类进行配置，增加 <cache usage="read-only" />
+        hibernate.cfg.xml 中增加对二级缓存的配置：
+            <property name="hibernate.cache.use_second_level_cache">true</property>
+            <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+            （由于版本问题，示例使用hibernate3，本项目使用hibernate5，上一行配置无效，未实现二级缓存）
+        在src目录下，创建一个ehcache.xml用于EHCache的缓存配置：
+            <ehcache>
+                <diskStore path="java.io.tmpdir"/>
+                <defaultCache
+                    maxElementsInMemory="10000"
+                    eternal="false"
+                    timeToIdleSeconds="120"
+                    timeToLiveSeconds="120"
+                    overflowToDisk="true"
+                    />
+            </ehcache>
+        Category.hbm.xml 对于要进行二级缓存的实体类进行配置，增加 <cache usage="read-only" />
 
     分页
 
     两种获取方式
-      get() load()
+        get() load()
 
     两种 Session 方式
 
@@ -125,11 +125,41 @@
     查询总数
 
     乐观锁
-      修改 Product.java 增加version属性
-      修改配置文件 Product.hbm.xml <version name="version" column="ver" type="int"></version>
-      增加一个version字段，用于版本信息控制。这就是乐观锁的核心机制。
-      比如session1获取product1的时候，version=1。 那么session1更新product1的时候，就需要确保version还是1才可以进行更新，并且更新结束后，把version改为2。
-      注意： version元素必须紧跟着id后面，否则会出错。
+        修改 Product.java 增加version属性
+            修改配置文件 Product.hbm.xml <version name="version" column="ver" type="int"></version>
+        增加一个version字段，用于版本信息控制。这就是乐观锁的核心机制。
+            比如session1获取product1的时候，version=1。 那么session1更新product1的时候，就需要确保version还是1才可以进行更新，并且更新结束后，把version改为2。
+        注意： version元素必须紧跟着id后面，否则会出错。
+        没有出现示例中的错误：
+            ERROR: HHH000346: Error during managed flush [Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1]
+
+        原理：
+            1. 假设数据库中产品的价格是10000，version是10
+            2. session1,session2分别获取了该对象
+            3. 都修改了对象的价格
+            4. session1试图保存到数据库，检测version依旧=10，成功保存，并把version修改为11
+            5. session2试图保存到数据库，检测version=11，说明该数据已经被其他人动过了。 保存失败，抛出异常
+
+    c3p0
+        hibernate.cfg.xml
+            <property name="hibernate.connection.provider_class">
+                org.hibernate.c3p0.internal.C3P0ConnectionProvider
+            </property>
+            <property name="hibernate.c3p0.max_size">20</property>
+            <property name="hibernate.c3p0.min_size">5</property>
+            <property name="hibernate.c3p0.timeout">50000</property>
+            <property name="hibernate.c3p0.max_statements">100</property>
+            <property name="hibernate.c3p0.idle_test_period">3000</property>
+            <!-- 当连接池耗尽并接到获得连接的请求，则新增加连接的数量 -->
+            <property name="hibernate.c3p0.acquire_increment">2</property>
+            <!-- 是否验证，检查连接 -->
+            <property name="hibernate.c3p0.validate">false</property>
+
+        去除二级缓存配置 Category.hbm.xml <!--     <cache usage="read-only" />-->
+
+        无法正常执行：
+            Exception in thread "main" java.lang.NoClassDefFoundError: com/mchange/v2/log/MLog
+12. 注解
 
 
 【参考1】
