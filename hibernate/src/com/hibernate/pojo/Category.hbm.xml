@@ -12,11 +12,11 @@
         </id>
         <property name="name"/>
 
-        <!--<set 用于设置一对多(多对多也是他)关系，也可以用list，设置稍复杂点，这里使用简单的set来入门。-->
-        <!--name="products" 对应 Category类中的products属性-->
-        <!--lazy="false" 表示不使用延迟加载。关于延迟加载，请参考关系的延迟加载-->
-        <!--<key column="cid" not-null="false" /> 表示外键是cid，可以为空-->
-        <!--<one-to-many class="Product" /> 表示一对多所对应的类是Product-->
+        <!--<set 用于设置一对多(多对多也是他)关系，也可以用list，设置稍复杂点，这里使用简单的set来入门。
+            name="products" 对应 Category类中的products属性
+            lazy="false" 表示不使用延迟加载。关于延迟加载，请参考关系的延迟加载
+            <key column="cid" not-null="false" /> 表示外键是cid，可以为空
+            <one-to-many class="Product" /> 表示一对多所对应的类是Product-->
         <!--<set name="products" lazy="false" >-->
 
         <!--关系延迟加载-->
@@ -27,6 +27,7 @@
 
         <!--级联修改-->
         <set name="products" cascade="save-update" lazy="false" >
+
             <key column="cid" not-null="false"/>
             <one-to-many class="Product"/>
         </set>

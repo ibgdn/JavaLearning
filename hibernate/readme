@@ -159,8 +159,82 @@
 
         无法正常执行：
             Exception in thread "main" java.lang.NoClassDefFoundError: com/mchange/v2/log/MLog
-12. 注解
 
+12. 注解  hibernate.cfg.annotation.xml    ProductAnnotation.java
+    hibernate里常用注解包括，类注解，属性注解，关系注解。
+
+    注解手册
+        类相关注解
+            @Entity —— 将一个类声明为一个实体bean(即一个持久化POJO类)
+            @Table —— 注解声明了该实体bean映射指定的表（table）,目录（catalog）和schema的名字
+
+        属性相关注解
+            @Id —— 注解声明了该实体bean的标识属性（对应表中的主键）。
+            @Column —— 注解声明了属性到列的映射。该注解有如下的属性
+                name 可选，列名（默认值是属性名）
+                unique 可选，是否在该列上设置唯一约束（默认值false）
+                nullable 可选，是否设置该列的值可以为空（默认值false）
+                insertable 可选，该列是否作为生成的insert语句中的一个列（默认值true）
+                updatable 可选，该列是否作为生成的update语句中的一个列（默认值true）
+                columnDefinition 可选，为这个特定列覆盖sql ddl片段（这可能导致无法在不同数据库间移植）
+                table 可选，定义对应的表（默认为主表）
+                length 可选，列长度（默认值255）
+                precision 可选，列十进制精度（decimal precision)(默认值0）
+                scale 可选，如果列十进制数值范围（decimal scale）可用，在此设置（默认值0）
+            @GeneratedValue —— 注解声明了主键的生成策略。该注解有如下属性
+                strategy 指定生成的策略（JPA定义的），这是一个GenerationType。默认是GenerationType. AUTO
+                GenerationType.AUTO 主键由程序控制
+                GenerationType.TABLE 使用一个特定的数据库表格来保存主键
+                GenerationType.IDENTITY 主键由数据库自动生成（主要是自动增长类型）
+                GenerationType.SEQUENCE 根据底层数据库的序列来生成主键，条件是数据库支持序列。（这个值要与generator一起使用）
+                generator 指定生成主键使用的生成器（可能是orcale中的序列）。
+            @SequenceGenerator —— 注解声明了一个数据库序列。该注解有如下属性
+                name 表示该表主键生成策略名称，它被引用在@GeneratedValue中设置的“gernerator”值中
+                sequenceName 表示生成策略用到的数据库序列名称。
+                initialValue 表示主键初始值，默认为0.
+                allocationSize 每次主键值增加的大小，例如设置成1，则表示每次创建新记录后自动加1，默认为50.
+
+        关系相关注解
+            @ManyToOne 设置多对一关联
+                方法一
+                    @ManyToOne(cascade={CasCadeType.PERSIST,CascadeType.MERGE})
+                    @JoinColumn(name="外键")
+                    public 主表类 get主表类(){return 主表对象}
+                方法二
+                    @ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE})
+                    @JoinTable(name="关联表名"，
+                        joinColumns = @JoinColumn(name="主表外键"),
+                        inverseJoinColumns = @JoinColumns(name="从表外键")
+                    )
+            @OneToMany 设置一对多关联。
+                方法一 。
+                    “一端”配置
+                    @OneToMany(mappedBy="“多端”的属性")
+                    public List<“多端”类> get“多端”列表(){return “多端”列表}
+                    “多端”配置参考@ManyToOne.
+                方法二
+                    “一端”配置
+                    @OneToMany(mappedBy="“多端”的属性")
+                    @MapKey(name="“多端”做为Key的属性")
+                    public Map<“多端”做为Key的属性的类,主表类> get“多端”列表（）{return “多端”列表}
+                    “多端”配置参考@ManyToOne.
+                方法三 使用这种配置，在为“一端”添加“多端”时，可以修改“多端”的外键。
+                    “一端”配置
+                    @OneToMany
+                    @JoinColumn(name="“多端”外键")
+                    public List<“多端”类> get“多端”列表(){return “多端”列表}
+                    “多端”配置参考@ManyToOne.
+    注解和 XML 的取舍
+        那么到底该用注解，还是xml文件配置方式呢？ 他们各自有各自的优缺点：
+
+        XML配置方式：
+            优：容易编辑，配置比较集中，方便修改，在大业务量的系统里面，通过xml配置会方便后人理解整个系统的架构，修改之后直接重启应用即可
+            缺：比较繁琐，配置形态丑陋, 配置文件过多的时候难以管理
+        注解方式：
+            优：方便，简洁，配置信息和 Java 代码放在一起，有助于增强程序的内聚性。
+            缺：分散到各个class文件中，所以不宜维护, 修改之后你需要重新打包，发布，重启应用。
+
+        个人体会： 小项目，参与人数不多，不复杂的用注解，开发快速。 复杂项目，多人交互，配置量大，维护复杂度高的，用配置文件。
 
 【参考1】
     查看列：desc 表名;
