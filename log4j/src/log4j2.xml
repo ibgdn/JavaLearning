@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!--5.12 all log events from  com.log4j.foo.Bar will be recorded while only error events will be recorded from all other components.-->
+        <!--<Logger name="com.log4j.foo.Bar" level="TRACE"/>
+        <Root level="error">
+            <AppenderRef ref="Console"/>
+        </Root>-->
+
+        <!--5.12 Notice that the trace messages from  com.log4j.foo.Bar appear twice. This is because the appender
+        associated with logger  com.log4j.foo.Bar is first used, which writes the first instance to the Console.
+        Next, the parent of  com.log4j.foo.Bar , which in this case is the root logger, is referenced. The event is
+        then passed to its appender, which is also writes to the Console, resulting in the second instance. This
+        is known as additivity. While additivity can be quite a convenient feature (as in the first previous
+        example where no appender reference needed to be configured), in many cases this behavior is
+        considered undesirable and so it is possible to disable it by setting the additivity attribute on the logger
+        to false.-->
+        <Logger name="com.log4j.foo.Bar" level="trace" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <!--Every configuration must have a root logger. -->
+        <Root level="error">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

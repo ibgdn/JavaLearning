@@ -1,0 +1,86 @@
+log4j version : apache-log4j-2.8.2-bin
+
+jar :   log4j-1.2-api-2.8.2.jar
+        log4j-api-2.8.2.jar
+        log4j-core-2.8.2.jar
+
+
+log4j日志输出格式一览：
+    %c 输出日志信息所属的类的全名
+    %d 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyy-MM-dd HH:mm:ss }，输出类似：2002-10-18- 22：10：28
+    %f 输出日志信息所属的类的类名
+    %l 输出日志事件的发生位置，即输出日志信息的语句处于它所在的类的第几行
+    %m 输出代码中指定的信息，如log(message)中的message
+    %n 输出一个回车换行符，Windows平台为“rn”，Unix平台为“n”
+    %p 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL。如果是调用debug()输出的，则为DEBUG，依此类推
+    %r 输出自应用启动到输出该日志信息所耗费的毫秒数
+    %t 输出产生该日志事件的线程名
+
+所以：
+    %5p [%t] (%F:%L) - %m%n 就表示
+    宽度是5的优先等级 线程名称 (文件名:行号) - 信息 回车换行
+
+5.1.1 Automatic Configuration
+    Log4j has the ability to automatically configure itself during initialization. When Log4j starts it
+will locate all the ConfigurationFactory plugins and arrange them in weighted order from highest to
+lowest. As delivered, Log4j contains four ConfigurationFactory implementations: one for JSON, one
+for YAML, one for properties, and one for XML.
+    1. Log4j will inspect the "log4j.configurationFile" system property and, if set, will attempt
+    to load the configuration using the ConfigurationFactory that matches the file extension.
+    2. If no system property is set the properties ConfigurationFactory will look for log4j2-test.properties in the classpath.
+    3. If no such file is found the YAML ConfigurationFactory will look for log4j2-test.yaml or log4j2-test.yml in the classpath.
+    4. If no such file is found the JSON ConfigurationFactory will look for log4j2-test.json or log4j2-test.jsn in the classpath.
+    5. If no such file is found the XML ConfigurationFactory will look for log4j2-test.xml in the classpath.
+    6. If a test file cannot be located the properties ConfigurationFactory will look for log4j2.properties on the classpath.
+    7. If a properties file cannot be located the YAML ConfigurationFactory will look for log4j2.yaml or log4j2.yml on the classpath.
+    8. If a YAML file cannot be located the JSON ConfigurationFactory will look for log4j2.json or log4j2.jsn on the classpath.
+    9. If a JSON file cannot be located the XML ConfigurationFactory will try to locate log4j2.xml on the classpath.
+    10.If no configuration file could be located the DefaultConfiguration will be used. This will cause logging output to go to the console.
+
+5.1.3 Automatic Reconfiguration
+    <?xml version="1.0" encoding="UTF-8"?>
+    <Configuration monitorInterval="30">
+    ...
+    </Configuration>
+
+5.1.5.2 Configuration with JSON
+    The JSON support uses the Jackson Data Processor to parse the JSON files. These dependencies must
+    be added to a project that wants to use JSON for configuration:
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson2Version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson2Version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson2Version}</version>
+        </dependency>
+
+5.1.5.3 Configuration with YAML
+    In order to use YAML configuration files, the Jackson YAML data format must be included:
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson2Version}</version>
+        </dependency>
+
+5.1.9 XInclude
+    XML configuration files can include other files with XInclude. Here is an example log4j2.xml file
+    that includes two other files:
+        <?xml version="1.0" encoding="UTF-8"?>
+        <configuration xmlns:xi="http://www.w3.org/2001/XInclude"
+                status="warn" name="XIncludeDemo">
+            <properties>
+                <property name="filename">xinclude-demo.log</property>
+            </properties>
+            <ThresholdFilter level="debug"/>
+            <xi:include href="log4j-xinclude-appenders.xml" />
+            <xi:include href="log4j-xinclude-loggers.xml" />
+        </configuration>
+
