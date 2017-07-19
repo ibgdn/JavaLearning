@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<web-app>
+    <servlet>
+        <servlet-name>testServlet</servlet-name>
+        <servlet-class>com.servlet.ServletTest</servlet-class>
+        <load-on-startup>9</load-on-startup>    <!--数字越小执行顺序越靠前-->
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>testServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
+    <!--login-->
+    <servlet>
+        <servlet-name>loginServlet</servlet-name>
+        <servlet-class>com.servlet.LoginServlet</servlet-class>
+        <load-on-startup>12</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+</web-app>

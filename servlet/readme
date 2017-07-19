@@ -1,0 +1,27 @@
+1. 基本配置
+    Tomcat 的环境变量必须设置：
+        CATALINA_HOME：D:\Program Files\apache\apache-tomcat-8.5.12
+
+    Tomcat 的配置文件 apache\apache-tomcat-8.5.12\conf\server.xml 中配置的项目路径必须到达 web.xml 的上上级目录：
+        <Context path="/" docBase="D:\\WS-IDEA\\JavaLearning\\servlet\\web" debug="0" reloadable="false" />
+
+    如果使用 IDEA 需要配置编译文件路径，默认配置路径不准确（本示例中编译文件放在 WEB-INF/classes）。
+
+    访问地址：http://localhost:8080/test
+
+2. A demo to show local datetime.
+    servlet\src\com\servlet\ServletTest.java
+    servlet\web\WEB-INF\web.xml
+
+3. Implementing the login function.
+    servlet\src\com\servlet\LoginServlet.java   为了避免发生乱码需要添加：        req.setCharacterEncoding("UTF-8");
+    servlet\web\login.html  为了避免发生乱码需要添加：    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    servlet\web\WEB-INF\web.xml
+
+    访问地址：http://localhost:8080/login.html
+
+3. Implementing the register function by annotations.
+    servlet\src\com\servlet\RegisterServlet.java
+    servlet\web\register.html
+
+    访问地址：http://localhost:8080/register.html
