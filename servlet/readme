@@ -25,3 +25,10 @@
     servlet\web\register.html
 
     访问地址：http://localhost:8080/register.html
+
+4. Implementing the upload file function by annotations.(It's OK for uploading file,
+    but overwrite in the upload.html is fail. There is something todo.)
+    servlet\src\com\servlet\UploadServlet.java
+    servlet\web\upload.html
+
+    访问地址：http://localhost:8080/upload.html

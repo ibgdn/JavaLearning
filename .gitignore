@@ -6,3 +6,9 @@
 *.iml
 LICENSE
 README.md
+
+#for eclipse like: servlet/web/WEB-INF/classes/
+*/*/*/classes/
+
+#for servlet
+*/*/upload-files/*

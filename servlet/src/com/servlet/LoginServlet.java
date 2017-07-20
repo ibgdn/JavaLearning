@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
         System.out.println("用户名：" + name);
         System.out.println("密码：" + password);
 
-        // version0 原页面显示信息
+        // version 0 原页面显示信息
         /*String htmlStr = null;
         if ("admin".equals(name) && "Aa000000".equals(password)) {
             htmlStr = "<div style='color:green'>登录成功——SUCCESS</div>";
@@ -61,13 +61,17 @@ public class LoginServlet extends HttpServlet {
         PrintWriter printWriter = resp.getWriter(); // 服务器端向浏览器端发送的输出流
         printWriter.println(htmlStr);*/
 
-        // version1 跳转到对应页面
+        // version 1 跳转到对应页面
         if("admin".equals(name)&&"Aa000000".equals(password)){
             // 服务端跳转可以看到浏览器的地址依然是/login 路径，并不会变成success.html
             req.getRequestDispatcher("success.html").forward(req,resp);
         }else{
-            // 在Servlet中进行客户端跳转,可以观察到，浏览器地址发生了变化
-            resp.sendRedirect("fail.html");
+            // version 2 在Servlet中进行客户端跳转,可以观察到，浏览器地址发生了变化
+            // resp.sendRedirect("fail.html");
+
+            // 或者使用如下方法
+            resp.setStatus(301);
+            resp.setHeader("Location","fail.html");
         }
     }
 }
