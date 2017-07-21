@@ -10,25 +10,63 @@
     访问地址：http://localhost:8080/test
 
 2. A demo to show local datetime.
-    servlet\src\com\servlet\ServletTest.java
+    servlet\src\com\servlet\basic\ServletTest.java
     servlet\web\WEB-INF\web.xml
 
 3. Implementing the login function.
-    servlet\src\com\servlet\LoginServlet.java   为了避免发生乱码需要添加：        req.setCharacterEncoding("UTF-8");
+    servlet\src\com\servlet\basic\LoginServlet.java   为了避免发生乱码需要添加：        req.setCharacterEncoding("UTF-8");
     servlet\web\login.html  为了避免发生乱码需要添加：    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     servlet\web\WEB-INF\web.xml
 
     访问地址：http://localhost:8080/login.html
 
 3. Implementing the register function by annotations.
-    servlet\src\com\servlet\RegisterServlet.java
+    servlet\src\com\servlet\basic\RegisterServlet.java
     servlet\web\register.html
 
     访问地址：http://localhost:8080/register.html
 
 4. Implementing the upload file function by annotations.(It's OK for uploading file,
     but overwrite in the upload.html is fail. There is something todo.)
-    servlet\src\com\servlet\UploadServlet.java
+    servlet\src\com\servlet\basic\UploadServlet.java
     servlet\web\upload.html
 
     访问地址：http://localhost:8080/upload.html
+
+5. CRUD
+    SQL:
+        CREATE USER 'servlet' IDENTIFIED BY 'servlet';
+        GRANT ALL PRIVILEGES ON servlet.* TO 'servlet';
+        CREATE DATABASE servlet;
+        USE servlet;
+        DROP TABLE IF EXISTS `human`;
+        CREATE TABLE `human` (
+          `id` int(11) NOT NULL AUTO_INCREMENT,
+          `name` varchar(30) DEFAULT NULL,
+          `age` int(11) DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+    查询所有：servlet\src\com\servlet\crud\servlet\ListServlet.java
+
+            http://localhost:8080/list
+
+    添加：
+        servlet\src\com\servlet\crud\servlet\AddServlet.java
+        servlet\web\addHuman.html
+
+        http://localhost:8080/addHuman.html
+
+    删除
+        servlet\src\com\servlet\crud\servlet\ListServlet.java
+        servlet\src\com\servlet\crud\servlet\DeleteServlet.java
+
+        http://localhost:8080/list
+
+
+    修改
+        servlet\src\com\servlet\crud\servlet\ListServlet.java
+        servlet\src\com\servlet\crud\servlet\EditServlet.java
+        servlet\src\com\servlet\crud\servlet\UpdateServlet.java
+
+        http://localhost:8080/list
