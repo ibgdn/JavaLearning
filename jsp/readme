@@ -1,0 +1,62 @@
+**** 执行过程
+     1. 把 hello.jsp转译为hello_jsp.java
+     2. hello_jsp.java 位于 d:\tomcat\work\Catalina\localhost\_\org\apache\jsp
+     3. hello_jsp.java是一个servlet
+     4. 把hello_jsp.java 编译为hello_jsp.class
+     5. 执行hello_jsp.class，生成html
+     6. 通过http协议把html 响应返回给浏览器
+
+**** 页面元素
+     jsp由这些页面元素组成：
+     1. 静态内容  就是html,css,javascript等内容
+     2. 指令  以<%@开始 %> 结尾，比如<%@page import="java.util.*"%>
+     3. 表达式 <%=%>  用于输出一段html
+     4. Scriptlet  在<%%> 之间，可以写任何java 代码
+     5. 声明  在<%!%> 之间可以声明字段或者方法。但是不建议这么做。
+     6. 动作  <jsp:include page="Filename" > 在jsp页面中包含另一个页面。在包含的章节有详细的讲解
+     7. 注释 <%-- -- %>  不同于 html的注释 <!-- --> 通过jsp的注释，浏览器也看不到相应的代码，相当于在servlet中注释掉了
+
+****  指令include和动作include的区别
+      通过之前的学习知道，JSP最后会被转译成Servlet
+
+      如果是指令include <%@include file="footer.jsp" %> footer.jsp的内容会被插入到 hello.jsp
+      转译 成的hello_jsp.java中，最后只会生成一个hello_jsp.java文件
+
+      如果是动作include <jsp:include page="footer.jsp" /> footer.jsp的内容不会被插入到 hello.jsp 转译 成的hello_jsp.java中，
+      还会有一个footer_jsp.java独立存在。 hello_jsp.java 会在服务端访问footer_.jsp.java,然后把返回的结果，嵌入到响应中。
+
+    执行过程、页面元素、指令、动作访问地址：localhost:8080/hello.jsp
+
+    跳转：jsp\web\jump.jsp
+    访问地址：localhost:8080/jump.jsp
+
+**** cookie
+     Cookie是一种浏览器和服务器交互数据的方式。
+     Cookie是由服务器端创建，但是不会保存在服务器。
+     创建好之后，发送给浏览器。浏览器保存在用户本地。
+     下一次访问网站的时候，就会把该Cookie发送给服务器。
+
+    jsp\web\setCookie.jsp
+    jsp\web\getCookie.jsp
+    访问地址：localhost:8080/setCookie.jsp
+
+**** session
+     Session对应的中文翻译是会话。
+     会话指的是从用户打开浏览器访问一个网站开始，无论在这个网站中访问了多少页面，点击了多少链接，
+     直到该用户关闭浏览器为止，都属于同一个会话。
+
+     盒子对应服务器上的Session。
+     钥匙对应浏览器上的Cookie。
+
+    访问地址：http://localhost:8080/setSession.jsp
+
+**** 作用域
+      requestContext与服务端跳转时，requestContext指的是一次请求
+      如果发生了服务端跳转，从setContext.jsp跳转到getContext.jsp，这其实，还是一次请求。
+      所以在getContext.jsp中，可以取到在requestContext中设置的值。这也是一种页面间传递数据的方式。
+
+      requestContext与客户端跳转时，客户端跳转，浏览器会发生一次新的访问，新的访问会产生一个新的request对象。
+      所以页面间客户端跳转的情况下，是无法通过request传递数据的。
+
+     访问地址：http://localhost:8080/setContext.jsp
+
