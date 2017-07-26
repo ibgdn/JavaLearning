@@ -39,5 +39,10 @@
 <jsp:include page="footer.jsp">
     <jsp:param name="year" value="2017"/>
 </jsp:include>
+
+<br><br>
+page:<%=page%><br>
+this:<%=this%><br>
+pageContext:<%=pageContext%>
 </body>
 </html>

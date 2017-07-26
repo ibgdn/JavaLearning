@@ -51,12 +51,63 @@
     访问地址：http://localhost:8080/setSession.jsp
 
 **** 作用域
-      requestContext与服务端跳转时，requestContext指的是一次请求
-      如果发生了服务端跳转，从setContext.jsp跳转到getContext.jsp，这其实，还是一次请求。
-      所以在getContext.jsp中，可以取到在requestContext中设置的值。这也是一种页面间传递数据的方式。
+     JSP有4个作用域，分别是：pageContext 当前页面、requestContext 一次请求、sessionContext 当前会话。
 
-      requestContext与客户端跳转时，客户端跳转，浏览器会发生一次新的访问，新的访问会产生一个新的request对象。
-      所以页面间客户端跳转的情况下，是无法通过request传递数据的。
+*****  pageContext
+       pageContext表示当前页面作用域，通过pageContext.setAttribute(key,value)的数据，只能在当前页面访问，在其他页面就不能访问了。
 
-     访问地址：http://localhost:8080/setContext.jsp
+***** requestContext
+      requestContext 表示一次请求。随着本次请求结束，其中的数据也就被回收。
 
+***** requestContext与服务端跳转
+      requestContext与服务端跳转时，requestContext指的是一次请求。如果发生了服务端跳转，从setContext.jsp跳转到getContext.jsp，
+      这其实，还是一次请求。 所以在getContext.jsp中，可以取到在requestContext中设置的值。这也是一种页面间传递数据的方式。
+
+*****  requestContext与客户端跳转
+       requestContext与客户端跳转时，客户端跳转，浏览器会发生一次新的访问，新的访问会产生一个新的request对象。
+       所以页面间客户端跳转的情况下，是无法通过request传递数据的。
+
+***** sessionContext
+      sessionContext 指的是会话，从一个用户打开网站的那一刻起，无论访问了多少网页，链接都属于同一个会话，直到浏览器关闭。
+      所以页面间传递数据，也是可以通过session传递的。但是，不同用户对应的session是不一样的，所以session无法在不同的用户之间共享数据。
+
+***** applicationContext
+      applicationContext 指的是全局，所有用户共享同一个数据。
+      在JSP中使用application对象，application对象是ServletContext接口的实例。也可以通过 request.getServletContext()来获取。
+      所以 application == request.getServletContext() 会返回true。application映射的就是web应用本身。
+
+      访问地址：http://localhost:8080/setContext.jsp
+
+**** 隐式对象
+     request 代表请求
+     response 代表响应
+     out 代表输出
+     pageContext 代表当前页面作用域
+     session 代表当会话作用域
+     application 代表当全局作用域
+     page 对象即表示当前对象，JSP 会被编译为一个Servlet类 ，运行的时候是一个Servlet实例。page即代表this。
+     config可以获取一些在web.xml中初始化的参数。
+     exception 对象只有当前页面的<%@page 指令设置为isErrorPage="true"的时候才可以使用。同时，在其他页面也需要设置 <%@page 指令 errorPage="" 来指定一个专门处理异常的页面。
+
+     访问地址：http://localhost:8080/hello.jsp    page/this/pageContext
+
+**** JSTL
+     访问地址：http://localhost:8080/index.jsp   或  http://localhost:8080
+
+**** EL 表达式
+     为了保证EL表达式能够正常使用，需要在<%@page 标签里加上isELIgnored="false"
+     用JSTL输出要写成：<c:out value="${name}" />，但是用EL只需要：${name}
+
+        访问地址：http://localhost:8080/el.jsp
+        获取请求参数访问地址：localhost:8080/el.jsp?name=sv
+
+     eq相等 ne、neq不相等，
+     gt大于， lt小于
+     gt大于， lt小于
+     gte、ge大于等于
+     lte、le 小于等于
+     not非 mod求模
+     is [not] div by是否能被某数整除
+     is [not] even是否为偶数
+     is [not] odd是否为奇
+     访问地址：http://localhost:8080/el.jsp
