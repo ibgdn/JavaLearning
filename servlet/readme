@@ -70,3 +70,10 @@
         servlet\src\com\servlet\crud\servlet\UpdateServlet.java
 
         http://localhost:8080/list
+
+6. JSON
+    添加如下 *.jar 文件：
+        commons-beanutils-1.7.0.jar、commons-collections-3.1.jar、commons-lang-2.5.jar、
+        commons-logging.jar、ezmorph-1.0.3.jar、json-lib-2.1-jdk15.jar
+
+    http://localhost:8080/submit.html

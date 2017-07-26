@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用AJAX以JSON方式提交数据</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+    <form>
+        姓名：<input type="text" id="name"><br>
+        年龄：<input type="text" id="age"><br>
+        <input type="button" value="提交" id="sender">
+        <!--必须是 button，否则无法提交-->
+    </form>
+    <div id="message"></div>
+    <script>
+        $('#sender').click(function(){
+           var name = document.getElementById('name').value;
+           var age = document.getElementById('age').value;
+           var human = {"name":name, "age":age};
+           var url="submitServlet";
+
+           $.post(
+               url,
+               {"data":JSON.stringify(human)},
+               function (data) {
+                   alert("提交成功，需要在控制台查看接收的数据。");
+               }
+           );
+        });
+    </script>
+</body>
+</html>
