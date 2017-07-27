@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getOneObject-用AJAX以JSON方式获取数据</title>
+</head>
+<body>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <input type="button" value="用AJAX以JSON方式获取数据" id="sender">
+    <div id="message"></div>
+    <script>
+        $('#sender').click(function(){
+           var url = "getOneObejct";
+           $.post(
+               url,
+               function (data) {
+                   var json = JSON.parse(data);
+                   var name = json.human.name;
+                   var age = json.human.age;
+                   $('#message').html("姓名：" + name + "<br>年龄：" + age);
+               }
+           );
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getManyObject-用AJAX以JSON方式获取数据</title>
+</head>
+<body>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <input type = "button" value="用AJAX以JSON方式获取数据" id="sender">
+    <div id="message"></div>
+    <script>
+        $('#sender').click(function () {
+            var url = "getManyObject";
+            $.post(
+                url,
+                function (data) {
+                    var humans = $.parseJSON(data);
+                    for(h in humans){
+                        var old = $('#message').html();
+                        var human = humans[h];
+                        $('#message').html(old + "<br>" + human.name + "----" + human.age);
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
