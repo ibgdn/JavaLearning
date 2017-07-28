@@ -1,0 +1,142 @@
+<html>
+  <meta charset="utf-8">
+  <div id="div0">add node</div>
+  <script>
+    function addNode(){
+    var hr = document.createElement("hr");
+    var div0 = document.getElementById("div0");
+    div0.appendChild(hr);
+    }
+  </script>
+  <button onclick="addNode()">在div0中添加hr元素</button>
+  <br><br>
+
+  <div id="div1">create node</div>
+  <script>
+    function createNode(){
+    var p = document.createElement("p");
+    var text = document.createTextNode("创建 p 标签");
+    p.appendChild(text);
+
+    var div1 = document.getElementById("div1");
+    div1.appendChild(p);
+    }
+  </script>
+  <button onclick="createNode()">在div1中添加p元素</button>
+  <br><br>
+
+  <div id="div2">append attribute node</div>
+  <script>
+    function appAttNode(){
+    var a = document.createElement("a");
+    var href = document.createAttribute("href");
+    href.nodeValue="http://how2j.cn";
+    a.setAttributeNode(href);
+    var context = document.createTextNode("how2j");
+    a.appendChild(context);
+
+    var div2 = document.getElementById("div2");
+    div2.appendChild(document.createElement("br"));
+    div2.appendChild(a);
+    }
+  </script>
+  <button onclick="appAttNode()">在 div2 中追加超链接</button>
+  <br><br>
+
+  <script>
+    function removeEle(){
+    var parent = document.getElementById("parent");
+    var divC3 = document.getElementById("divC3");
+    parent.removeChild(divC3);
+    }
+  </script>
+  <div id="parent">
+    <div id="divC1">保留的 DIV</div>
+    <div id="divC3">将要被删除的 DIV</div>
+  </div>
+  <button onclick="removeEle()">删除第二个 DIV</button>
+  <br><br>
+
+  <script>
+    function removeAtt(){
+    var link = document.getElementById("link");
+    link.removeAttribute("href");
+    }
+  </script>
+    <a id="link" href="http://how2j.cn">removeAttribute</a><br>
+    <button onclick="removeAtt()">删除 a 标签的 href 属性</button>
+    <br><br>
+
+  <script>
+    function removeDiv(){
+    var parent = document.getElementById("parentDiv");
+    var textNode = parent.childNodes[0];
+    parent.removeChild(textNode);
+    }
+
+    function setNull(){
+    var parent = document.getElementById("parentDiv");
+    parent.innerHTML="";
+    }
+
+    function recover(){
+    var parent = document.getElementById("parentDiv");
+    parent.innerHTML="文本";
+    }
+  </script>
+  <style>
+    button{
+    display:block;
+    }
+  </style>
+  <div id="parentDiv">文本</div>
+  <button onclick="removeDiv()">删除文本节点</button>
+  <button onclick="setNull()">置空文本节点</button>
+  <button onclick="recover()">恢复文本内容</button>
+  <br><br>
+
+  <div id="parentRep">
+    <div id="divr1">第一个 DIV</div>
+    <div id="divr2">第二个 DIV</div>
+  </div>
+  <script>
+    function replaceDiv(){
+    var divr3 = document.createElement("div");
+    var text = document.createTextNode("第三个 DIV");
+    divr3.appendChild(text);
+
+    var divr2 = document.getElementById("divr2");
+    var parent = document.getElementById("parentRep");
+    parent.replaceChild(divr3,divr2);
+    }
+  </script>
+  <button onclick="replaceDiv()">第三个 DIV 替换第二个 DIV</button>
+  <br><br>
+
+  <div id="parentIns">
+    <div id="divi1">第一个 DIV</div>
+    <div id="divi2">第二个 DIV</div>
+  </div>
+  <script>
+    function appendDiv(){
+    var divi3 = document.createElement("div");
+    var text = document.createTextNode("第三个 DIV");
+    divi3.appendChild(text);
+
+    var parent = document.getElementById("parentIns");
+    parent.appendChild(divi3);
+    }
+
+    function insertDiv(){
+    var divi4 = document.createElement("div");
+    var text = document.createTextNode("第四个 DIV");
+    divi4.appendChild(text);
+
+    var parent = document.getElementById("parentIns");
+    var divi1 = document.getElementById("divi1");
+    parent.insertBefore(divi4,divi1);
+    }
+  </script>
+  <button onclick="appendDiv()">追加第三个 DIV</button>
+  <button onclick="insertDiv()">在第一个 DIV 之前插入 DIV</button>
+</html>
