@@ -1624,6 +1624,22 @@ public class Test {
 
 *** BootStrap
 
+**** 如何使用
+
+*****  <!DOCTYPE html>
+       因为bootstrap用到了html5的特性，为了正常使用，需要在最开头加上
+       <!DOCTYPE html>
+
+***** 导入js 导入css
+      接着导入js和css
+        Bootstrap需要JQuery才能正常工作，所以需要导入jquery.min.js
+        接着是 Bootstrap的css，里面定义了各种样式
+        最后是 Bootstrap的js，用于产生交互效果，比如关闭警告框
+      注：顺序不要搞错了，否则有一些效果会出不来。
+
+
+
+
 
 
 ** J2EE
