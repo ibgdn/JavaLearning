@@ -618,3 +618,182 @@
   </div>
 </div>
 <div style="height:120px"></div>
+
+<h4>整合分裂式下拉菜单</h4>
+<!-- style -->
+<div class="input-group">
+  <input type="text" class="form-control">
+  <div class="input-group-btn">
+    <button type="button" class="btn btn-default">提交</button>
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#">HTML</a></li>
+      <li role="presentation"><a href="#">CSS</a></li>
+      <li role="presentation"><a href="#">JavaScript</a></li>
+    </ul>
+  </div>
+</div>
+<div style="height:120px"></div><br><br>
+
+<h4>标签页</h4>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">iOS</a></li>
+  <li role="presentation"><a href="#">Android</a></li>
+</ul><br>
+
+<h4>胶囊式标签页</h4>
+<ul class="nav nav-pills">
+  <li role="presentation" class="active"><a href="#">iOS</a></li>
+  <li role="presentation"><a href="#">Android</a></li>
+</ul><br>
+
+<h4>垂直胶囊式标签页</h4>
+<ul class="nav nav-pills nav-stacked" style="width:80px">
+  <li role="presentation"><a href="#">iOS</a></li>
+  <li role="presentation" class="active"><a href="#">Android</a></li>
+</ul><br>
+
+<h4>禁用标签页连接</h4>
+<ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#">iOS</a></li>
+  <li role="presentation"><a href="#">Android</a></li>
+  <li role="presentation" class="disabled"><a href="#">Window Phone</a></li>
+</ul><br><br>
+
+<h4>面包屑导航</h4>
+<!-- 不一定非要用 ol，div、ul 也可以 -->
+<ol class="breadcrumb">
+  <li><a href="#">Font</a></li>
+  <li><a href="#">BootStrap</a></li>
+  <li class="active">breadcrumb</li>
+</ol><br><br>
+
+<h4>基本分页</h4>
+<nav>
+  <ul class="pagination">
+    <li><a href="#"><span>&laquo;</span></a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#"><span>&raquo;</span></a></li>
+  </ul>
+</nav><br>
+
+<h4>禁用和激活状态</h4>
+<nav>
+  <ul class="pagination">
+    <li><a href="#"><span>&laquo;</span></a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li class="disabled"><a href="#"><span>&raquo;</span></a></li>
+  </ul>
+</nav><br>
+
+<h4>尺寸</h4>
+<nav>
+  <ul class="pagination pagination-lg">
+    <li><a href="#"><span>&laquo;</span></a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#"><span>&raquo;</span></a></li>
+  </ul>
+</nav>
+<nva>
+  <ul class="pagination">
+    <li><a href="#"><span>&laquo;</span></a></li>
+    <li><a href="#">a</a></li>
+    <li><a href="#"><span>&raquo;</span></a></li>
+  </ul>
+</nav>
+<nav>
+  <ul class="pagination pagination-sm">
+    <li><a href="#"><span>&laquo;</span></a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#"><span>&raquo;</span></a></li>
+  </ul>
+</nav><br><br>
+
+<h4>翻页</h4>
+<nav>
+  <ul class="pager">
+    <li><a href="#">上一页</a></li>
+    <li><a href="#">下一页</a></li>
+  </ul>
+</nav><br>
+
+<h4>翻页两端对齐</h4>
+<nav>
+  <ul class="pager">
+    <li class="previous"><a href="#"><span>&larr;</span>上一页</a></li>
+    <li class="next"><a href="#">下一页<span>&rarr;</span></a></li>
+  </ul>
+</nav><br>
+
+<h4>禁用翻页</h4>
+<!-- 虽然有禁用图标，但是还是可以跳转，移除 a 标签的 href 属性就不会跳转，但是用 AJAX 异步就会出问题 -->
+<nav>
+  <ul class="pager">
+    <li class="disabled"><a href="#">上一页</a></li>
+    <li><a href="#">下一页</a></li>
+  </ul>
+</nav><br><br>
+
+<h4>标签</h4>
+<div style="heigth:10px"></div> <!-- 起到撑开元素间隔的效果 -->
+<span class="label label-default">默认</span><br>
+
+<h4>强调标签</h4>
+<div style="height:10px"></div>
+<span class="label label-primary">强调</span><br>
+
+<h4>成功标签</h4>
+<div style="height:10px"></div>
+<span class="label label-success">成功</span><br>
+
+<h4>信息标签</h4>
+<div style="height:10px"></div>
+<span class="label label-info">信息</span><br>
+
+<h4>警告标签</h4>
+<div style="height:10px"></div>
+<span class="label label-warning">警告</span><br>
+
+<h4>危险标签</h4>
+<div style="height:10px"></div>
+<span class="label label-danger">危险</span><br><br>
+
+<h4>超链接旁边的数字徽记</h4>
+<a href="#">新消息<span class="badge">23</span></a><br>
+
+<h4>按钮中的数字徽记</h4>
+<button class="btn btn-primary" type="button">
+  未读消息<span class="badge">4</span>
+</button><br><br>
+
+<h4>超大屏幕显示</h4>
+<div class="jumbotron">
+  <div class="container" align="center">
+    <h2 class="text-info" style="font-family:微软雅黑;font-weight:bold;font-size:49px">乎</h2><br>
+    <div class="text-muted">世界</div><br>
+    <p><a role="button" href="#" class="btn btn-success">注册</a></p>
+  </div>
+</div><br><br>
+
+<h4>副标题</h4>
+<div class="page-header">
+  <h1>正标题<small>副标题</small><h1>
+</div><br><br>
+
+<h4>缩略图</h4>
+<style>
+  img{
+    width:150px;
+  }
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-3">
+      <a href="#" class="thumbnail"><img src="pictures/cat.jpg"></a>
+    </div>
