@@ -27,7 +27,7 @@
 
 
 <!-- 表格 -->
-<h4>基本表格</h4>
+<h4>基本表格--table</h4>
 <table class="table">
   <thead>
     <th>缩略图</th><th>名称</th>
@@ -40,7 +40,7 @@
   </tbody>
 </table>
 
-<h4>斑马线表格</h4>
+<h4>斑马线表格--table-striped</h4>
 <table class="table table-striped">
   <thead>
     <th>缩略图</th><th>名称</th>
@@ -53,7 +53,7 @@
   </tbody>
 </table>
 
-<h4>带边框的表格</h4>
+<h4>带边框的表格--table-bordered</h4>
 <table class="table table-bordered">
   <thead>
     <th>缩略图</th><th>名称</th>
@@ -66,7 +66,7 @@
   </tbody>
 </table>
 
-<h4>鼠标经过状态改变的表格</h4>
+<h4>鼠标经过状态改变的表格--table-hover</h4>
 <table class="table table-hover">
   <thead>
     <th>缩略图</th><th>名称</th>
@@ -79,7 +79,7 @@
   </tbody>
 </table>
 
-<h4>紧凑的表格</h4>
+<h4>紧凑的表格--table-condensed</h4>
 <table class="table table-condensed">
   <thead>
     <th>缩略图</th><th>名称</th>
@@ -92,7 +92,7 @@
   </tbody>
 </table>
 
-<h4>多状态整合的表格</h4>
+<h4>多状态整合的表格--tablestriped--tablebordered--table-hover--table-condensed</h4>
 <table class="table table-striped table-bordered table-hover table-condensed">
   <thead>
     <th>缩略图</th><th>名称</th>
@@ -122,16 +122,16 @@
 
 
 <!-- 图片 -->
-<h4>圆角图片</h4>
+<h4>圆角图片--img-rounded</h4>
 <img src="pictures/waterfall.jpg" class="img-rounded">
-<h4>圆形图片</h4>
+<h4>圆形图片--img-circle</h4>
 <img src="pictures/doraemon.jpg" class="img-circle">
-<h4>缩略图片</h4>
+<h4>缩略图片--imgthumbnail</h4>
 <img src="pictures/cat.jpg" class="img-thumbnail">
 <br>
 
 <!-- 表单 -->
-<h4>表单</h4>
+<h4>表单--form-control</h4>
 <input type="text" class="form-control" value="文本框"><br>
 <input type="password" class="form-control" value="密码"><br>
 <textarea class="form-control">文本域</textarea><br>
@@ -142,6 +142,7 @@
 <br><br>
 
 <!-- 文本 -->
+<h4>文本--text-*</h4>
 <span class="text-muted">淡灰色文本，用于说明性文字</span><br>
 <span class="text-primary">强调性文本</span><br>
 <span class="text-success">操作成功文本</span><br>
@@ -151,7 +152,7 @@
 <br>
 
 <!-- 背景 -->
-<h4>背景</h4>
+<h4>背景--bg-*</h4>
 <p class="bg-primary">强调</p>
 <p class="bg-success">操作成功的文字</p>
 <p class="bg-info">提示性的文字</p>
@@ -160,6 +161,7 @@
 <br><br>
 
 <!-- 其他 -->
+<h4>其他</h4>
 <button type="button" class="close" aria-hidden="true">关闭按钮（去除右侧字符会丢失“X”号图标）&times;</button>
 <span class="caret">三角形图标</span>
 <div class="pull-left">文字浮动到左边</div>
@@ -171,6 +173,7 @@
 <br><br>
 
 <!-- 栅格布局 -->
+<h4>栅格布局--container</h4>
 <style>
   div.container div.row div{
     margin: 5px 0px;
@@ -230,7 +233,7 @@
 </div>
 <br><br>
 
-<h4>超出部分会自动换行</h4>
+<h4>超出部分会自动换行--container</h4>
 <div class="container">
   <div class="row">
     <div class="col-xs-6">1/2</div>
@@ -245,18 +248,18 @@
 </div>
 
 
-<h4>一个字体图标</h4>
+<h4>一个字体图标--glyphicon-asterisk</h4>
 <span class="glyphicon glyphicon-asterisk"></span><br>
 
-<h4>字体图标设置颜色</h4>
+<h4>字体图标设置颜色--glyphicon-asterisk--text-success</h4>
 <span class="glyphicon glyphicon-asterisk text-success"></span><br>
 
-<h4>字体图标加入超链接</h4>
+<h4>字体图标加入超链接--glyphicon-asterisk</h4>
 <a href="#nowhere">
   <span class="glyphicon glyphicon-asterisk"></span>链接
 </a><br>
 
-<h4>在按钮上添加字体图标</h4>
+<h4>在按钮上添加字体图标--btn--glyphicon</h4>
 <button class="btn btn-primary btn-xs">
   <span class="glyphicon glyphicon-asterisk"></span>最小按钮
 </button>
@@ -265,7 +268,7 @@
 </button>
 <br><br>
 
-<h4>下拉菜单</h4>
+<h4>下拉菜单--dropdown</h4>
 <div class="dropdown"> <!-- 下拉菜单 -->
   <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">localhost<span class="caret"></span> <!-- id 指向菜单数据来源 -->
   </button>
@@ -274,9 +277,9 @@
     <li role="presentation"><a href="#">CSS</a></li>
   </ul>
 </div>
-<div style="height:100px"><div>
+<div style="height:100px"><div><br>
 
-<h4>选项不可点击，添加选项分隔线，禁用项</h4>
+<h4>选项不可点击，添加选项分隔线，禁用项--dropdown</h4>
 <div class="dropdown">
   <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">localhost<span class="caret"></span>
   </button>
@@ -291,7 +294,7 @@
 <div style="height:150px"></div>
 <br><br>
 
-<h4>按钮组</h4>
+<h4>按钮组--btn-group</h4>
 <div class="btn-group" role="group" aria-label="web">
   <button type="button" class="btn btn-default">HTML</button>
   <button type="button" class="btn btn-default">CSS</button>
@@ -299,7 +302,7 @@
 </div>
 <br><br>
 
-<h4>按钮组尺寸</h4>
+<h4>按钮组尺寸--btn-group</h4>
 <style>
   br{
     margin:20px;
@@ -327,7 +330,7 @@
 </div>
 <br><br>
 
-<h4>工具栏</h4>
+<h4>工具栏--btn-toolbar</h4>
 <div class="btn-toolbar" role="toolbar" aria-label="study">
   <div class="btn-group" role="group" aria-label="java">
     <button type="button" class="btn btn-default">初级</button>
@@ -348,7 +351,7 @@
 <br><br>
 
 
-<h4>垂直排列按钮</h4>
+<h4>垂直排列按钮--btn-group-vertical</h4>
 <div class="btn-group-vertical" role="group" aria-label="web">
   <button type="button" class="btn btn-default">HTML</button>
   <button type="button" class="btn btn-default">CSS</button>
@@ -356,7 +359,7 @@
 </div><br><br>
 
 
-<h4>复选按钮</h4>
+<h4>复选按钮--btn-group</h4>
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-default active">
     <input type="checkbox" checked>HTML（默认选中）
@@ -370,7 +373,7 @@
 </div><br><br>
 
 
-<h4>单选按钮</h4>
+<h4>单选按钮--btn-group</h4>
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-default active">
     <input type="radio" checked>HTML（默认选中）
@@ -384,7 +387,7 @@
 </div><br><br>
 
 
-<h4>单按钮下拉菜单</h4>
+<h4>单按钮下拉菜单--btn-group</h4>
 <div class="btn-group">
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
     default
@@ -454,7 +457,7 @@
 <div style="height:100px"></div>
 
 
-<h4>分裂式按钮下拉菜单</h4>
+<h4>分裂式按钮下拉菜单--btn-group</h4>
 <div class="btn-group">
   <button type="button" class="btn btn-default">默认</button>
   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -469,7 +472,7 @@
 <div style="height:100px"></div>
 
 
-<h4>多种尺寸的按钮</h4>
+<h4>多种尺寸的按钮--btn-group</h4>
 <div class="btn-group">
   <button type="button" class="btn btn-lg btn-default drop-toggle" data-toggle="dropdown">
     大号
@@ -517,7 +520,7 @@
 <div style="height:100px"></div>
 
 
-<h4>向上弹出式菜单（dropup 使弹出菜单向上）</h4>
+<h4>向上弹出式菜单（dropup 使弹出菜单向上）--dropup</h4>
 <div style="height:100px"></div>
 <div class="btn-group dropup">
   <button type="button" class="btn btn-default dropdown-toggle" id="dropdownMenu" data-toggle="dropdown">
@@ -532,7 +535,7 @@
 </div>
 <br><br>
 
-<h4>输入框-基本组合</h4>
+<h4>输入框-基本组合--input-group</h4>
 <style>
   div{
     margin:5px;
@@ -552,7 +555,7 @@
   <span class="input-group-addon">.00</span>
 </div>
 
-<h4>输入框-尺寸</h4>
+<h4>输入框-尺寸--input-group-lg</h4>
 <style>
   div{
     margin:5px;
@@ -571,7 +574,7 @@
   <input type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon">
 </div>
 
-<h4>复选框和单选框</h4>
+<h4>复选框和单选框--input-group</h4>
 <!-- style -->
 <div class="input-group">
   <span class="input-group-addon"><input type="checkbox"></span>
@@ -582,7 +585,7 @@
   <input type="text" class="form-control">
 </div>
 
-<h4>搜索</h4>
+<h4>搜索--input-group</h4>
 <!-- style -->
 <div class="input-group">
   <span class="input-group-btn"><button class="btn btn-default" type="button">搜索</button></span>
@@ -593,7 +596,7 @@
   <span class="input-group-btn"><button class="btn btn-default" type="button">搜索</button></span>
 </div>
 
-<h4>搜索按钮整合下拉菜单</h4>
+<h4>搜索按钮整合下拉菜单--input-group-btn</h4>
 <!-- style -->
 <div class="input-group">
   <div class="input-group-btn">
@@ -619,7 +622,7 @@
 </div>
 <div style="height:120px"></div>
 
-<h4>整合分裂式下拉菜单</h4>
+<h4>整合分裂式下拉菜单--input-group</h4>
 <!-- style -->
 <div class="input-group">
   <input type="text" class="form-control">
@@ -637,32 +640,32 @@
 </div>
 <div style="height:120px"></div><br><br>
 
-<h4>标签页</h4>
+<h4>标签页--nav-tabs</h4>
 <ul class="nav nav-tabs">
   <li role="presentation" class="active"><a href="#">iOS</a></li>
   <li role="presentation"><a href="#">Android</a></li>
 </ul><br>
 
-<h4>胶囊式标签页</h4>
+<h4>胶囊式标签页--nav-pills</h4>
 <ul class="nav nav-pills">
   <li role="presentation" class="active"><a href="#">iOS</a></li>
   <li role="presentation"><a href="#">Android</a></li>
 </ul><br>
 
-<h4>垂直胶囊式标签页</h4>
+<h4>垂直胶囊式标签页--nav-pills--nav-stacked</h4>
 <ul class="nav nav-pills nav-stacked" style="width:80px">
   <li role="presentation"><a href="#">iOS</a></li>
   <li role="presentation" class="active"><a href="#">Android</a></li>
 </ul><br>
 
-<h4>禁用标签页连接</h4>
+<h4>禁用标签页连接--nav-tabs</h4>
 <ul class="nav nav-tabs">
   <li role="presentation" class="active"><a href="#">iOS</a></li>
   <li role="presentation"><a href="#">Android</a></li>
   <li role="presentation" class="disabled"><a href="#">Window Phone</a></li>
 </ul><br><br>
 
-<h4>面包屑导航</h4>
+<h4>面包屑导航--breadcrumb</h4>
 <!-- 不一定非要用 ol，div、ul 也可以 -->
 <ol class="breadcrumb">
   <li><a href="#">Font</a></li>
@@ -670,7 +673,7 @@
   <li class="active">breadcrumb</li>
 </ol><br><br>
 
-<h4>基本分页</h4>
+<h4>基本分页--pagination</h4>
 <nav>
   <ul class="pagination">
     <li><a href="#"><span>&laquo;</span></a></li>
@@ -681,7 +684,7 @@
   </ul>
 </nav><br>
 
-<h4>禁用和激活状态</h4>
+<h4>禁用和激活状态--pagination</h4>
 <nav>
   <ul class="pagination">
     <li><a href="#"><span>&laquo;</span></a></li>
@@ -692,7 +695,7 @@
   </ul>
 </nav><br>
 
-<h4>尺寸</h4>
+<h4>尺寸--pagination-lg</h4>
 <nav>
   <ul class="pagination pagination-lg">
     <li><a href="#"><span>&laquo;</span></a></li>
@@ -715,7 +718,7 @@
   </ul>
 </nav><br><br>
 
-<h4>翻页</h4>
+<h4>翻页--pager</h4>
 <nav>
   <ul class="pager">
     <li><a href="#">上一页</a></li>
@@ -723,7 +726,7 @@
   </ul>
 </nav><br>
 
-<h4>翻页两端对齐</h4>
+<h4>翻页两端对齐--pager</h4>
 <nav>
   <ul class="pager">
     <li class="previous"><a href="#"><span>&larr;</span>上一页</a></li>
@@ -731,7 +734,7 @@
   </ul>
 </nav><br>
 
-<h4>禁用翻页</h4>
+<h4>禁用翻页--pager</h4>
 <!-- 虽然有禁用图标，但是还是可以跳转，移除 a 标签的 href 属性就不会跳转，但是用 AJAX 异步就会出问题 -->
 <nav>
   <ul class="pager">
@@ -740,39 +743,39 @@
   </ul>
 </nav><br><br>
 
-<h4>标签</h4>
+<h4>标签--label</h4>
 <div style="heigth:10px"></div> <!-- 起到撑开元素间隔的效果 -->
 <span class="label label-default">默认</span><br>
 
-<h4>强调标签</h4>
+<h4>强调标签--label-primary</h4>
 <div style="height:10px"></div>
 <span class="label label-primary">强调</span><br>
 
-<h4>成功标签</h4>
+<h4>成功标签--label-success</h4>
 <div style="height:10px"></div>
 <span class="label label-success">成功</span><br>
 
-<h4>信息标签</h4>
+<h4>信息标签--label-info</h4>
 <div style="height:10px"></div>
 <span class="label label-info">信息</span><br>
 
-<h4>警告标签</h4>
+<h4>警告标签--label-warning</h4>
 <div style="height:10px"></div>
 <span class="label label-warning">警告</span><br>
 
-<h4>危险标签</h4>
+<h4>危险标签--label-danger</h4>
 <div style="height:10px"></div>
 <span class="label label-danger">危险</span><br><br>
 
-<h4>超链接旁边的数字徽记</h4>
+<h4>超链接旁边的数字徽记--badge</h4>
 <a href="#">新消息<span class="badge">23</span></a><br>
 
-<h4>按钮中的数字徽记</h4>
+<h4>按钮中的数字徽记--btn-primary</h4>
 <button class="btn btn-primary" type="button">
   未读消息<span class="badge">4</span>
 </button><br><br>
 
-<h4>超大屏幕显示</h4>
+<h4>超大屏幕显示--jumbotron</h4>
 <div class="jumbotron">
   <div class="container" align="center">
     <h2 class="text-info" style="font-family:微软雅黑;font-weight:bold;font-size:49px">乎</h2><br>
@@ -781,12 +784,12 @@
   </div>
 </div><br><br>
 
-<h4>副标题</h4>
+<h4>副标题--page-header</h4>
 <div class="page-header">
   <h1>正标题<small>副标题</small><h1>
 </div><br><br>
 
-<h4>缩略图</h4>
+<h4>缩略图--container--thumbnail</h4>
 <style>
   img{
     width:150px;
@@ -806,7 +809,7 @@
   </div>
 </div><br>
 
-<h4>自定义内容</h4>
+<h4>自定义内容--container</h4>
 <style>
   img{
     width:150px;
@@ -841,20 +844,20 @@
   </div>
 </div><br><br>
 
-<h4>警告框</h4>
+<h4>警告框--alert</h4>
 <div class="alert alert-success" role="alert">操作成功</div>
 <div class="alert alert-info" role="alert">信息提示</div>
 <div class="alert alert-warning" role="alert">警告提示</div>
 <div class="alert alert-danger" role="alert">危险提示</div><br>
 
-<h4>可关闭的警告框</h4>
+<h4>可关闭的警告框--alert</h4>
 <div class="alert alert-warning alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>警告提示
 </div><br>
 
-<h4>警告框中的链接</h4>
+<h4>警告框中的链接--alert</h4>
 <div class="alert alert-success" role="alert">
   <span>sale!!!</span><a href="#nowhere" class="alert-link">点击购买</a>
 </div>
@@ -868,12 +871,12 @@
   <span>sale!!!</span><a href="#nowhere" class="alert-link">点击购买</a>
 </div><br><br>
 
-<h4>基本进度条</h4>
+<h4>基本进度条--progress-bar</h4>
 <div class="progress">
   <div class="progress-bar" style="width:60%;"></div>
 </div><br>
 
-<h4>带数值的进度条</h4>
+<h4>带数值的进度条--progress-bar</h4>
 <div class="progress">
   <div class="progress-bar" style="width:60%;min-width:2em;">60%</div>
 </div>
@@ -881,7 +884,7 @@
   <div class="progress-bar" style="width:0%;min-width:2em;">0%</div>
 </div><br>
 
-<h4>不同颜色的进度条</h4>
+<h4>不同颜色的进度条--progress-bar</h4>
 <div class="progress">
   <div class="progress-bar progress-bar-success" style="width:40%">40%</div>
 </div>
@@ -895,76 +898,76 @@
   <div class="progress-bar progress-bar-danger" style="width:100%">100%</div>
 </div><br>
 
-<h4>条纹</h4>
+<h4>条纹--progress-bar-striped</h4>
 <div class="progress">
   <div class="progress-bar progress-bar-success progress-bar-striped" style="width:40%">40%</div>
 </div><br>
 
-<h4>发廊</h4>
+<h4>发廊--progress-bar-striped</h4>
 <div class="progress">
   <div class="progress-bar progress-bar-striped active" style="width:40%">40%</div>
 </div><br>
 
-<h4>堆叠</h4>
+<h4>堆叠--progress-striped</h4>
 <div class="progress">
   <div class="progress-bar progress-bar-success" style="width:30%"></div>
   <div class="progress-bar progress-bar-warning progress-bar-striped" style="width:20%"></div>
   <div class="progress-bar progress-bar-danger" style="width:10%"></div>
 </div><br><br>
 
-<h4>基本列表</h4>
+<h4>基本列表--list-group-item</h4>
 <ul class="list-group">
   <li class="list-group-item">HTML</li>
   <li class="list-group-item">CSS</li>
   <li class="list-group-item">JavaScript</li>
 </ul><br>
 
-<h4>徽记</h4>
+<h4>徽记--list-group-item--badge</h4>
 <ul class="list-group">
   <li class="list-group-item"><span class="badge">3</span>HTML</li>
   <li class="list-group-item"><span class="badge">33</span>CSS</li>
   <li class="list-group-item"><span class="badge">333</span>JavaScript</li>
 </ul><br>
 
-<h4>超链接</h4>
+<h4>超链接--list-group-item</h4>
 <div class="list-group">
   <a href="#" class="list-group-item active">HTML</a>
   <a href="#" class="list-group-item">CSS</a>
   <a href="#" class="list-group-item">JavaScript</a>
 </div><br>
 
-<h4>按钮</h4>
+<h4>按钮--list-group-item</h4>
 <div class="list-group">
   <button type="button" class="list-group-item active">HTML</button>
   <button type="button" class="list-group-item">CSS</button>
   <button type="button" class="list-group-item">JavaScript</button>
 </div><br>
 
-<h4>颜色</h4>
+<h4>颜色--list-group-item</h4>
 <div class="list-group">
   <a href="#" class="list-group-item list-group-item-success">HTML</a>
   <a href="#" class="list-group-item list-group-item-info">CSS</a>
   <a href="#" class="list-group-item list-group-item-warning">JavaScript</a>
 </div><br><br>
 
-<h4>基本面板</h4>
+<h4>基本面板--panel</h4>
 <div class="panel panel-default">
   <div class="panel-body">面板内容</div>
 </div><br>
 
-<h4>面板标题和内容</h4>
+<h4>面板标题和内容--panel-heading--panel-body</h4>
 <div class="panel panel-default">
   <div class="panel-heading">面板标题</div>
   <div class="panel-body">面板内容</div>
 </div><br>
 
-<h4>面板脚注</h4>
+<h4>面板脚注--panel-footer</h4>
 <div class="panel panel-default">
   <div class="panel-body">面板内容</div>
   <div class="panel-footer">面板脚注</div>
 </div><br>
 
-<h4>面板颜色</h4>
+<h4>面板颜色--panel</h4>
 <div class="panel panel-default">
   <div class="panel-heading">面板标题</div>
   <div class="panel-body">面板内容</div>
@@ -985,3 +988,37 @@
   <div class="panel-heading">面板标题</div>
   <div class="panel-body">面板内容</div>
 </div><br><br>
+
+<h4>嵌入效果--well</h4>
+<div class="well">文字呈现嵌入效果</div><br><br>
+
+<h4>贴在顶部（不消失）--navbar-fixed-top</h4>
+<style>
+  body{
+    padding-top:70px
+  }
+</style>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <button class="btn btn-info">菜单</button>
+  <button class="btn btn-success">菜单</button>
+</nav>
+<div style="white-space:pre">
+  下拉滚动条才能看得见，菜单一直停留在顶部。
+</div><br>
+
+<h4>贴在顶部（会消失）--navbar-static-top</h4>
+<nav class="navbar navbar-default navbar-static-top">
+  <button class="btn btn-warning">菜单</button>
+  <button class="btn btn-danger">菜单</button>
+</nav>
+<div style="white-space:pre">
+  停留在顶部，会消失
+</div><br>
+
+<h4>贴在底部（不会消失）--navbar-fixed-bottom</h4>
+<div style="white-space:pre">
+  拉动内容，底部版权信息位置不变
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div style="text-align:center">版权所有</div>
+</nav><br><br>
