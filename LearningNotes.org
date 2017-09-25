@@ -876,6 +876,226 @@ public class Test {
           4. 日志输出级别范围可控制， 如代码所示，只输出高于DEBUG级别的，那么TRACE级别的日志自动不输出
           5. 每句日志消耗的毫秒数(最前面的数字)，可观察，这样就可以进行性能计算
 
+** JAVA 工具
+
+*** Redis
+
+**** 什么是Redis
+     Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
+     换句话说，Redis就像是一个HashMap，不过不是在JVM中运行，而是以一个独立进程的形式运行。
+
+****  Redis官网
+      redis官网：http://redis.io
+      windows版本的下载地址是： http://redis.io/download
+      点击进去之后会跳转到： https://github.com/mythz/redis-windows
+
+      从github上下载后，需要自己编译生成exe文件，但是为了编程生成exe文件，又需要用到Visual Studio一套，很是麻烦。
+
+**** 运行
+
+*****  启动服务端
+       在解压后的目录下运行
+       redis-server.exe
+
+*****  启动客户端
+       redis-cli.exe
+
+***** 简单运用
+      向服务器设置键值，并读取键值。
+      set keys values
+      get keys
+
+**** 常见命令
+     Redis目前有5种数据类型，分别是：
+     String（字符串）
+     List（列表）
+     Hash（字典）
+     Set（集合）
+     Sorted Set（有序集合）
+     不同的数据类型，有不同的命令方式
+
+***** String 字符串
+      set google http://www.google
+      append google .com
+      get google
+      set visitors 0
+      incr visitors
+      incr visitors
+      get visitors
+      incrby visitors 100
+      get visitors
+      type google
+      type visitors
+      ttl google
+      rename google google-site
+      get google
+      get google-site
+
+      127.0.0.1:6379> set keys values
+OK
+127.0.0.1:6379> get keys
+"values"
+127.0.0.1:6379> get key
+(nil)
+127.0.0.1:6379> set google http://www.google
+OK
+127.0.0.1:6379> append google .com
+(integer) 21
+127.0.0.1:6379> get google
+"http://www.google.com"
+127.0.0.1:6379> set visitors 0
+OK
+127.0.0.1:6379> incr visitors
+(integer) 1
+127.0.0.1:6379> incr visitors
+(integer) 2
+127.0.0.1:6379> get visitors
+"2"
+127.0.0.1:6379> incrby visitors 100
+(integer) 102
+127.0.0.1:6379> get visitors
+"102"
+127.0.0.1:6379> type google
+string
+127.0.0.1:6379> type visitors
+string
+127.0.0.1:6379> ttl google
+(integer) -1
+127.0.0.1:6379> rename google google-site
+OK
+127.0.0.1:6379> get google
+(nil)
+127.0.0.1:6379> get google-site
+"http://www.google.com"
+
+
+***** List 列表
+      lpush list1 redis
+      lpush list1 hello
+      rpush list1 world
+      llen list1
+      lrange list1 0 3
+      lpop list1
+      rpop list1
+      lrange list1 0 3
+
+127.0.0.1:6379> lpush list1 redis
+(integer) 1
+127.0.0.1:6379> lpush list1 hello
+(integer) 2
+127.0.0.1:6379> rpush list1 world
+(integer) 3
+127.0.0.1:6379> llen list1
+(integer) 3
+127.0.0.1:6379> lrange list1 0 3
+1) "hello"
+2) "redis"
+3) "world"
+127.0.0.1:6379> lpop list1
+"hello"
+127.0.0.1:6379> llen list1
+(integer) 2
+127.0.0.1:6379> lrange list1 0 3
+1) "redis"
+2) "world"
+127.0.0.1:6379> rpop list1
+"world"
+127.0.0.1:6379> lrange list1 0 3
+1) "redis"
+
+***** Hash 字典，哈希表
+      hset person name jack
+      hset person age 20
+      hset person sex famale
+      hgetall person
+      hkeys person
+      hvals person
+
+127.0.0.1:6379> hset person name jack
+(integer) 1
+127.0.0.1:6379> hset person age 20
+(integer) 1
+127.0.0.1:6379> hset person sex famale
+(integer) 1
+127.0.0.1:6379> hgetall person
+1) "name"
+2) "jack"
+3) "age"
+4) "20"
+5) "sex"
+6) "famale"
+127.0.0.1:6379> hkeys person
+1) "name"
+2) "age"
+3) "sex"
+127.0.0.1:6379> hvals person
+1) "jack"
+2) "20"
+3) "famale"
+
+***** Set 集合
+      SADD myset "Hello"
+      SADD myset "World"
+      SMEMBERS myset
+      SADD myset "one"
+      SISMEMBER myset "one"
+
+127.0.0.1:6379> SADD myset "Hello"
+(integer) 1
+127.0.0.1:6379> SADD myset "World"
+(integer) 1
+127.0.0.1:6379> SMEMBERS myset
+1) "World"
+2) "Hello"
+127.0.0.1:6379> SADD myset "one"
+(integer) 1
+127.0.0.1:6379> SISMEMBER myset "one"
+(integer) 1
+127.0.0.1:6379> SMEMBERS myset
+1) "one"
+2) "World"
+3) "Hello"
+
+***** Sorted Set 有序集合
+      zadd dbs 100 redis
+      zadd dbs 98 memcached
+      zadd dbs 99 mongodb
+      zadd dbs 99 leveldb
+      zcard dbs
+      zcount dbs 10 99
+      zrank dbs leveldb
+      zrank dbs other
+      zrangebyscore dbs 98 100
+
+127.0.0.1:6379> zadd dbs 100 redis
+(integer) 1
+127.0.0.1:6379> zadd dbs 98 memcached
+(integer) 1
+127.0.0.1:6379> zadd dbs 99 mongodb
+(integer) 1
+127.0.0.1:6379> zadd dbs 99 leveldb
+(integer) 1
+127.0.0.1:6379> zcard dbs
+(integer) 4
+127.0.0.1:6379> zcount dbs 10 99
+(integer) 3
+127.0.0.1:6379> zrank dbs leveldb
+(integer) 1
+127.0.0.1:6379> zrank dbs other
+(nil)
+127.0.0.1:6379> zrangebyscore dbs 98 100
+1) "memcached"
+2) "leveldb"
+3) "mongodb"
+4) "redis"
+
+**** Jedis
+
+***** 什么是Jedis
+      在常见命令中，使用各种Redis自带客户端的命令行方式访问Redis服务。 而在实际工作中却需要用到Java代码才能访问，使用第三方jar包 ：Jedis就能方便地访问Redis的各种服务了。
+
+
+
 
 ** 前端基础
 
