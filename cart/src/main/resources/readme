@@ -1,0 +1,19 @@
+address: localhost:8080/login.jsp
+
+用 IDEA 创建 Servlet 时，没有目标选项，在项目的 pom.xml 文件中添加如下内容即可：
+        <!--创建Servlet-->
+        <dependency>
+           <groupId>jstl</groupId>
+           <artifactId>jstl</artifactId>
+           <version>1.2</version>
+        </dependency>
+
+
+JSP 页面必须加入 isELIgnored="false" 才能正常使用 EL 表达式取值。
+
+
+貌似从5.1.7版本之后的mysql-connector增加了返回GeneratedKeys的条件，如果需要返回GeneratedKeys，则PreparedStatement需要显示添加一个参数Statement.RETURN_GENERATED_KEYS。
+    OrderDAO.java 第15行
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        修改为：
+        PreparedStatement preparedStatement = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
