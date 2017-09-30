@@ -1089,6 +1089,9 @@ OK
 3) "mongodb"
 4) "redis"
 
+***** redis 命令查询地址
+      http://www.redis.cn/commands.html
+
 **** Jedis
 
 ***** 什么是Jedis
@@ -1995,6 +1998,13 @@ OK
 **** EL 表达式
      为了保证EL表达式能够正常使用，需要在<%@page 标签里加上isELIgnored="false"
      用JSTL输出要写成：<c:out value="${name}" />，但是用EL只需要：${name}
+
+*** Filter
+
+**** 中文处理
+     按照MVC的设计模式，视图会交由jsp负责，而在jsp最上面一般都会加上 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*"%> 其作用之一，就等同于response.setContentType("text/html; charset=UTF-8");
+
+
 
 ** JAVA 框架
 
