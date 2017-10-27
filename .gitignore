@@ -1,4 +1,4 @@
-# For IntelliJ
+## For IntelliJ
 */out/
 #*/lib/
 */.idea/
@@ -7,14 +7,11 @@
 LICENSE
 README.md
 
-# For Eclipse like: servlet/web/WEB-INF/classes/
+## For Eclipse like: servlet/web/WEB-INF/classes/
 */*/*/classes/
 
-# for servlet
-*/*/upload-files/*
-*/lib/
 
-# For Maven Projects
+## For Maven Projects
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -24,3 +21,11 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+
+## For specific projects
+# for servlet
+*/*/upload-files/*
+*/lib/
+
+# for SpringMVC
+*/*/*/lib/
