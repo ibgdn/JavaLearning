@@ -1,0 +1,5 @@
+除了需要导入必要的 Spring 框架类库，spring-webmvc-4.3.9.RELEASE.jar、spring-web-4.3.9.RELEASE.jar也是必须的。
+
+启动过程中可能会有莫名其妙的错误，可能是缺少 *.jar 文件。
+
+访问地址：http://localhost:8080/index

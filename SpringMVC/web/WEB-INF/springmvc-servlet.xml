@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <!--该文件的文件名，与 web.xml 中的 <servlet-name>springmvc</servlet-name> springmvc对应-->
+
+    <!--Spring的一种拦截器，用于在XML文件中配置以拦截url，它是以map映射的方式进行拦截。
+    映射是从前台urls到具体后台的beans。同时支持到bean实例和bean名称的映射，后者要求非单实例控制。
+    urlMap适用于映射到bean引用，而mappings适用于映射到bean的名字。例如：/welcome.html=ticketController-->
+    <bean id="simpleUrlHandlerMapping"
+        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/index">indexController</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="indexController" class="controller.IndexController"></bean>
+    <!--Spring MVC的 映射配置文件：表示访问路径/index会交给id=indexController的bean处理
+        id=indexController的bean配置为类：controller.IndexController-->
+</beans>
