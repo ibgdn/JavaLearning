@@ -1097,7 +1097,85 @@ OK
 ***** 什么是Jedis
       在常见命令中，使用各种Redis自带客户端的命令行方式访问Redis服务。 而在实际工作中却需要用到Java代码才能访问，使用第三方jar包 ：Jedis就能方便地访问Redis的各种服务了。
 
+*** NGINX
 
+**** 入门
+***** 启动和关闭
+      1. 程序目录下，双击 nginx.exe 文件打开，通过任务管理器结束进程（两个）关。
+      2. 程序目录下，执行“start nginx”，关闭执行“nginx -s stop”。
+      执行后，通过访问：
+         http://127.0.0.1
+     确定服务是否启动
+
+***** 配置文件
+      nginx 的配置文件是 conf 目录下的 nginx.conf 文件。
+      listen 80; # 端口号
+      root html; # 页面存放目录
+      index index.html index.htm # 欢迎页面
+
+
+**** 反向代理
+
+***** 代理
+      先说正向代理，比如要访问youtube,但是不能直接访问，只能先找个翻墙软件，通过翻墙软件才能访问youtube. 翻墙软件就叫做正向代理。
+      所谓的反向代理，指的是用户要访问youtube,但是youtube悄悄地把这个请求交给bilibili来做，那么bilibili就是反向代理了。
+      在当前指的就是访问nginx,但是nginx把请求交给tomcat来做。
+
+***** 配置
+      修改配置文件 nginx.conf：
+
+         location / {
+                 proxy_pass http://127.0.0.1:8111;
+         }
+
+      重启 nginx
+      nginx -s reload
+
+      访问：
+      http://127.0.0.0/
+
+***** 配置的意义
+      既然直接通过127.0.0.1:8111/login.jsp 可以访问，那么干嘛要通过127.0.0.1/login.jsp 去反向代理到tomcat呢？ 为什么不直接使用tomcat呢？
+
+      因为nginx在处理静态文件的吞吐量上面比tomcat好很多，通常他们俩配合，不会把所有的请求都如本例所示的交给tomcat, 而是把静态请求交给nginx，动态请求，如jsp, servlet,ssm， struts等请求交给tomcat. 从而达到动静分离的效果。 接下来就会讲解如何进行动静分离。
+
+
+**** 动静分离
+***** 动静分离概念
+      所谓的动静分离就是指图片，css, js之类的都交给nginx来处理，nginx处理不了的，比如jsp 就交给tomcat来处理。
+      好处是nginx处理静态内容的吞吐量很高，比tomcat高多了，这样无形中提升了性能。
+
+***** 配置
+      在原有 location 后添加一个（注意正反斜杠和空格）
+        location ~\.(css|js|png)$ {
+            root C:/Users/Admin/Desktop/tomcat_8111/webapps/ROOT;
+        }
+      表示所有的css js png访问都由nginx来做，访问的地址是：C:/Users/Admin/Desktop/tomcat_8111/webapps/ROOT
+
+***** 效果
+      到tomcat的输出日志里观察，就会发现，只访问了jsp, 所有的css,js,png都不会经过 tomcat，而是由nginx自己负责处理了。
+
+
+**** 负载均衡
+***** 负载均衡概念
+      当访问量很大的时候，一个 Tomcat 吃不消了，这时候就准备多个 Tomcat，由Nginx按照权重来对请求进行分配，从而缓解单独一个Tomcat受到的压力。
+
+***** 配置
+      在 server 前新增一个 upstream：
+        upstream tomcat_8111_8222{
+          server 127.0.0.1:8111 weight=1;
+          server 127.0.0.1:8222 weight=2;
+        }
+
+      修改 location，反向代理到新增的配置：
+        location / {
+            proxy_pass http://tomcat_8111_8222;
+        }
+
+      重启 nginx 查看效果
+
+***** 效果
+      查看后台日志可以看到，多次访问项目地址后，被分配到了不同的 tomcat。
 
 
 ** 前端基础
