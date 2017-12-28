@@ -40,7 +40,9 @@
 ***** 长度容量
 为什么StringBuffer可以变长？
 和String内部是一个字符数组一样，StringBuffer也维护了一个字符数组。 但是，这个字符数组，留有冗余长度
-比如说new StringBuffer("the")，其内部的字符数组的长度，是19，而不是3，这样调用插入和追加，在现成的数组的基础上就可以完成了。如果追加的长度超过了19，就会分配一个新的数组，长度比原来多一些，把原来的数据复制到新的数组中，看上去 数组长度就变长了
+比如说new StringBuffer("the")，其内部的字符数组的长度，是19，而不是3，这样调用插入和追加，在现成的数组的基础上就可以完成了。如果追加的长度超过了19，就会分配一个新的数组，长度比原来多一些，把原来的数据复制到新的数组中，看上去 数组长度就变长了。
+
+
 ** JAVA 中级
 *** I/O
 **** 关闭流的方式
@@ -304,6 +306,8 @@ MouseAdapter 鼠标监听适配器
 **** 容器
 ***** 模态JDialog
 当一个对话框被设置为模态的时候，其背后的父窗体，是不能被激活的，除非该对话框被关闭。
+
+
 ** 事件项目
 *** 一本糊涂账
 **** 基础
@@ -876,6 +880,7 @@ public class Test {
           4. 日志输出级别范围可控制， 如代码所示，只输出高于DEBUG级别的，那么TRACE级别的日志自动不输出
           5. 每句日志消耗的毫秒数(最前面的数字)，可观察，这样就可以进行性能计算
 
+
 ** JAVA 工具
 
 *** Redis
@@ -884,26 +889,26 @@ public class Test {
      Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。
      换句话说，Redis就像是一个HashMap，不过不是在JVM中运行，而是以一个独立进程的形式运行。
 
-****  Redis官网
-      redis官网：http://redis.io
-      windows版本的下载地址是： http://redis.io/download
-      点击进去之后会跳转到： https://github.com/mythz/redis-windows
+**** Redis官网
+     redis官网：http://redis.io
+     windows版本的下载地址是： http://redis.io/download
+     点击进去之后会跳转到： https://github.com/mythz/redis-windows
 
-      从github上下载后，需要自己编译生成exe文件，但是为了编程生成exe文件，又需要用到Visual Studio一套，很是麻烦。
+     从github上下载后，需要自己编译生成exe文件，但是为了编程生成exe文件，又需要用到Visual Studio一套，很是麻烦。
 
 **** 运行
-
-*****  启动服务端
+     启动服务端
        在解压后的目录下运行
        redis-server.exe
 
-*****  启动客户端
+     启动客户端
        redis-cli.exe
 
-***** 简单运用
-      向服务器设置键值，并读取键值。
-      set keys values
-      get keys
+     简单运用
+       向服务器设置键值，并读取键值。
+       set keys values
+       get keys
+
 
 **** 常见命令
      Redis目前有5种数据类型，分别是：
@@ -1093,9 +1098,9 @@ OK
       http://www.redis.cn/commands.html
 
 **** Jedis
-
 ***** 什么是Jedis
       在常见命令中，使用各种Redis自带客户端的命令行方式访问Redis服务。 而在实际工作中却需要用到Java代码才能访问，使用第三方jar包 ：Jedis就能方便地访问Redis的各种服务了。
+
 
 *** NGINX
 
@@ -1176,6 +1181,48 @@ OK
 
 ***** 效果
       查看后台日志可以看到，多次访问项目地址后，被分配到了不同的 tomcat。
+
+
+**** Session 共享
+
+***** 负载均衡 session 问题
+      通过负载均，我们可以把请求分发到不同的 Tomcat 来缓解服务器的压力，但是这里存在一个问题： 当同一个用户第一次访问tomcat_8111 并且登录成功， 而第二次访问却被分配到了tomcat_8222， 这里并没有记录他的登陆状态，那么就会呈现未登录状态了，严重伤害了用户体验。
+
+***** 解决办法一：ip_hash
+      通过ip地址标记用户，如果多次请求都是从同一个ip来的，那么就都分配到同一个tomcat.
+这样就不会出现负载均衡 session问题了. 处理手段也很简单，在upstream最后加上ip_hash;就行了。
+      upstream tomcat_8111_8222{
+        server 127.0.0.1:8111 weight=1;
+        server 127.0.0.1:8222 weight=2;
+        ip_hash;
+      }
+
+      不过这种方案并不完美，当如下几种情况发生时就有问题：
+          1. 大量请求来之某个局域网，那么相当于就没有负载均衡了
+          2. 如果tomcat_8111 挂了，那么此时nginx只要把请求交给tomcat_8222,但是这里却没有记录session,用户体验依然受影响。
+
+***** 解决办法二：redis + tomcat-session-manager
+      用Redis来存取session.
+      说简单点 redis 就是个独立的Hashmap，用来存放键值对的。
+      这样当tomcat1需要保存session值的时候，就可以把它放在Redis上，需要取的时候，也从Redis上取。
+      那么考虑这个情景：
+          1. 用户提交账号密码的行为被分配在了tomcat8111上，登陆信息被存放在redis里。
+          2. 当用户第二次访问的时候，被分配到了tomcat8222上
+          3. 那么此时tomcat8222就会从redis去获取相关信息，一看有对应信息，那么就会呈现登陆状态。
+
+***** 修改 context.xml 文件
+      然后修改tomcat/conf/context.xml ，增加如下内容：
+          <Valve className="com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve" />
+          <Manager className="com.orangefunction.tomcat.redissessions.RedisSessionManager"
+              host="127.0.0.1"
+              port="6379"
+              database="0"
+              maxInactiveInterval="60" />
+
+***** 效果
+      访问：http://127.0.0.1:8111/login.jsp
+      登录后，在新标签页访问另一个 tomcat 的访问地址：http://127.0.0.1:8222/login.jsp
+      会看到一样的登录页面。
 
 
 ** 前端基础
