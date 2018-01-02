@@ -1225,6 +1225,175 @@ OK
       会看到一样的登录页面。
 
 
+*** Linux 部署
+
+**** 阿里云
+
+***** 购买
+      1. 阿里云官网地址：http://aliyun.com/
+      2. 注册登录后进入“控制台”
+      3. ECS就是云服务器，进入控制台后，点击左边的云服务器ECS->实例->创建实例 进入购买新实例界面
+         需要自行选择“计费方式”、“地域”、“网络”、“实例规格”、“公网带宽”、“镜像”、“存储”、“购买量”、“安全设置”、“立即购买”。
+         “计费方式”默认包年包月，之后可以选择周支付。
+         “地域”默认选择华北1。
+         “网络”默认设置，需要设置的“安全组”，就是指服务器开放什么端口让别人访问，默认只开放22和3389端口。
+         “实例规格”选择最便宜的 ecs.t5-lc2m1.nano（单核512MB）
+         “公网带宽”1M
+         “镜像”公共镜像 CentOS 7.4
+         “存储”40G
+         “购买量”默认一年，最小可选单位1周
+         “安全设置”设置账户、密码
+         “立即购买”通过阿里云或支付宝的实名认证就可以支付了。
+
+
+**** SecurityCRT
+     Linux的文件系统和Windows不一样，windows有c盘，d盘，e盘，Linux 看上去就只有一个盘，/usr就是相当于硬盘上的usr目录。
+
+
+**** FTP
+
+***** 介绍
+      File Transfer Protocol ： 文件传输协议。
+      Linux上的ftp服务器有各种型号，我们会使用vsftpd，全称是：very secure FTP daemon 非常安全的ftp后台程序，ftp服务端。
+
+***** 安装
+      安装：
+      $ yum install vsftpd -y
+
+      查看服务状态
+      $ systemctl status vsftpd.service
+      如果 CentOS 使用的是7之前的，需要使用命令：
+      $ service vsftpd status
+
+      启动服务
+      $ systemctl start vsftpd.service
+      停止服务
+      $ systemctl stop vsftpd.service
+
+      检查端口
+      $ netstat -anp | grep 21
+      ftp 服务使用的端口号是 21，使用以上命令可以看到端口监听情况。
+
+***** 配置服务用户
+      创建目录
+      $ mkdir -p /home/vsftpd
+
+      创建用户并指定加目录（ftp 内置，不需要创建。nologin 禁止用户登录系统，但是可以登录 ftp 等）
+      $ useradd -d /home/vsftpd -g ftp /sbin/nologin vsftpduser
+
+      配置文件夹所有者及用户权限
+      $ chown -R vsftpduser /home/vsftpd
+      $ chmod -R 775 /home/vsftpduser
+
+      设置用户密码
+      $ passwd vsftpd
+
+***** 配置权限
+      vsftpd 服务器允许匿名登录，需要将该功能关闭。
+      $ vi /etc/vsftpd/vsftpd.conf
+      将
+      anonymous_enable=YES
+      更改为
+      anonymous_enable=NO
+
+      限定用户可访问目录，chroot_file 为限制用户的列表文件
+      $ vi /etc/vsftpd/vsftpd.conf
+      将
+      #chroot_list_enable=YES
+      #(default follows)
+      #chroot_list_file=/etc/vsftpd/chroot_list
+      修改为
+      chroot_list_enable=YES
+      #(default follows)
+      chroot_list_file=/etc/vsftpd/chroot_list
+
+      在 chroot_list 文件添加用户
+      $ vi /etc/vsftpd/chroot_list
+      添加 vsftpduser 后保存退出。
+
+      vsftpd服务器会在某个用户被限制访问后，剥夺该用户的写权限。导致ftp客户端连接上服务器之后无法上传文件。
+      在 vsftpd.conf 中为用户添加写权限
+      $ vi /etc/vsftpd.conf
+      添加如下内容：
+      allow_writeable_chroot=YES
+
+***** 配置端口
+      vsftpd有两种端口，一个是21端口，用来监听客户端连接请求的。这个一般说来是固定的，就一直使用21端口。
+      另一种是，一旦获取到请求之后，再专门用户服务端和客户端传输数据的端口。
+      $ vi /etc/vsftpd/vsftpd.conf
+      添加如下内容（使用被动模式，用于传输数据的端口分配从30000-31000之间）：
+      pasv_enable=YES
+      pasv_min_port=30000
+      pasv_max_port=31000
+
+      配置完成之后需要重新启动服务：
+      $ systemctl restart vsftpd.service
+      $ systemctl status vsftpd.service
+      CentOS 7 之前的系统使用：
+      $ service vsftpd restart
+      $ service vsftpd status
+
+***** CentOS 开放其他需要的端口
+      在购买ECS服务器-网络步骤中，开通了22和3389端口。（22就是SecureCRT链接Linux服务器用的端口号。3389 是阿里云控制台链接用的端口，这里没有用到。）
+      只有这两个端口号是不够用的，为了能够链接vsftpd服务器还需要开放21端口和 30000-31000端口。
+      登陆阿里云后，按照如下顺序选择：云服务器ECS->安全组->配置规则，借助阿里云的安全组操作来实现端口的开放效果。
+
+**** 快速安装 openJDK
+     $ yum install install java-1.8.0-openjdk.x86_64 -y
+
+**** 快速安装 MySQL
+     在 yum 安装之前，需要获取社区版 MySQL
+     $ cd /tmp
+     $ wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+     $ rpm -ivh mysql-community-release-el7-5.noarch.rpm
+     $ yum install mysql mysql-server mysql-devel -y
+
+     启动服务
+     $ systemctl start mysql.service
+     验证启动情况
+     $ systemctl status mysql.service
+     $ netstat -anp | grep 3306
+
+     设置登录密码并登录验证
+     $ mysqladmin -u root password admin
+     $ mysql -uroot -padmin
+
+**** tomcat
+     安装（yum 没有 tomcat 的源）
+     $ cd /tmp
+     $ wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-7/v7.0.82/bin/apache-tomcat-7.0.82.tar.gz
+     $ tar -zxf apache-tomcat-7.0.82.tar.gz
+     $ mv apache-tomcat-7.0.82 /usr/local/tomcat
+
+     启动服务
+     $ sh /usr/local/tomcat/apache-tomcat-7.0.82/bin/startup.sh
+     查看端口占用情况
+     $ netstat -anp | grep 8080
+     查看输出日志
+     $ tail -300f /usr/local/tomcat/apache-tomcat-7.0.82/logs/catalina.out
+
+     有时候 tomcat 启动需要好几分钟，使用脚本关闭 tomcat，执行如下命令
+     $ yum install rng-tools -y
+     $ systemctl start rngd
+     之后启动 tomcat 服务即可。
+
+**** 部署应用
+
+***** 配置 MySQL
+      Windows 中对英文大小写不敏感，在 Linux 中是严格区分大小写的，对于 MySQL 可通过修改配置文件来使其对大小写不敏感。
+      $ vi /etc/my.cnf
+      在[mysqld]后添加添加：
+      lower_case_table_names=1
+      然后重启服务
+      $ systemctl restart mysqld.service
+
+***** 配置 tomcat
+      添加项目启动路径，在<Host></Host>标签内添加
+      $ vi /usr/local/tomcat/apache-tomcat-7.0.82/conf/server.xml
+      <Context path="/tmall" docBase="/home/vsftpduser/tmall/web" debug="0" reloadable="false" />
+      重新启动 tomcat，查看日志输出信息。
+
+
 ** 前端基础
 
 *** HTML
