@@ -2473,3 +2473,34 @@ HQL（Hibernate Query Language）是hibernate专门用于查询数据的语句�
      }
 
 *** Spring MVC
+
+
+** 数据库
+
+*** Oracle
+
+    1. 字符串连接
+       字符串连接符“||”
+       > select first_name, last_name from hr.employees;
+       > select first_name ||' '|| last_name 姓名 from hr.employees;
+    2. 去除重复
+       查询部分 id
+       > select distinct department_id from hr.employees;
+    3. 条件限定
+       名字里倒数第2个字母是 a 的员工（%任意匹配，有货没有；_有并且只有一个）
+       > select * from hr.employees where first_name like '%a_';
+    4. 分组查询
+       查看各部门平均工资
+       > select avg(salary), e.department_id from hr.employees e group by e.department_id;
+    5. having
+       对分组函数进行条件判断
+       > select avg(salary), e.department_id from hr.employees e group by e.department_id having avg(salary) > 5000;
+    6. 子查询
+       子查询即可以简单的理解成同时执行多条sql语句，将一条sql语句的查询结果作为条件来执行另一条sql语句。
+       > select count(*) from hr.employees e where e.salary >
+       > (select e.salary from hr.employees e where e.first_name = "Bruce");
+    7. 分页查询
+       > select * from
+       > (select rownum r, e1.* from
+       >  (select e.* from hr.employees e order by e.salary desc) e1
+       > ) e2 where e2.r >= 5 and e2.r <= 10;
