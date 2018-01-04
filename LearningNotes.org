@@ -2504,3 +2504,68 @@ HQL（Hibernate Query Language）是hibernate专门用于查询数据的语句�
        > (select rownum r, e1.* from
        >  (select e.* from hr.employees e order by e.salary desc) e1
        > ) e2 where e2.r >= 5 and e2.r <= 10;
+    8. 序列 sequence
+       每次插入数据的时候，id应该自动增加的，那么就需要使用sequence作为id自增长技术 。
+       创建 sequence,序列从1开始，每次增加1，最大值为9999999。
+       > create sequence seq
+       >   increment by 1
+       >   start with 1
+       >   maxvalue 9999999
+
+       使用 sequence
+       获取 seq 的下一个值：
+       > select seq.nextval from dual;
+       获取 seq 的当前值
+       > select seq.currval from dual;
+
+       作为 id 插入到表中
+       > insert into hero (id,name)
+       > values (seq.nextval, '炸弹人')；
+    9. 修改数据
+       > update hero set name = '修补匠' where id = 22;
+    10. 舍弃表
+        truncate 立即删除表里所有的记录，比 delete 更快，更彻底，并且不能回复，不能回滚！！！
+        > truncate table hero;
+    11. 修改表结构
+        新增列
+        > alter table hero add (kills number);
+
+        修改列（将 name 原有字段类型修改为300长度的变长字符）
+        > alter table hero modify(name varchar2(300));
+
+        删除列
+        > alter table hero drop column kills;
+    12. 删除表
+        不可回滚
+        > drop table hero；
+    13. 约束
+        创建表时设置约束
+        > create table hero(
+        >   id number,
+        >   name varchar2(30) unique)
+
+        给约束命名
+        > create table hero(
+        >   id number,
+        >   name varchar2(30) unique
+        >   constraint uk_hero_name unique(name)
+        > )
+
+        给已经存在的表添加约束
+        > alter table hero add constraint pk_hero_id primary key (id);
+
+        删除约束
+        > alter table hero drop constraint uk_hero_name;
+
+        创建外键约束
+        > create table kill_record(
+        >   id number, killerid number, killedid number, number_ number,
+        >   constraint fk_killer_hero foreign key(killerid) references hero(id),
+        >   constraint fk_killed_hero foreign key(killedid) references hero(id)
+        > )
+    14. 视图
+        可对视图像操作普通表一样进行操作，表修改会导致视图数据变更。
+        > create view herosimple as(
+        >   select id, name from hero
+        > );
+        > select * from herosimple;
