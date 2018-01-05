@@ -1,5 +1,22 @@
-除了需要导入必要的 Spring 框架类库，spring-webmvc-4.3.9.RELEASE.jar、spring-web-4.3.9.RELEASE.jar也是必须的。
+Operating Environment:
+    Windows 7
+    JDK 1.8
+    IDEA 2017.2.5
+    Spring 4.3.9
 
+除了需要导入必要的 Spring 框架类库，spring-webmvc-4.3.9.RELEASE.jar、spring-web-4.3.9.RELEASE.jar也是必须的。
 启动过程中可能会有莫名其妙的错误，可能是缺少 *.jar 文件。
 
-访问地址：http://localhost:8080/index
+0.Hello Spring MVC
+    访问地址：http://localhost:8080/index
+
+    原理：
+        1)浏览器访问 http://localhost:8080/index;
+        2)所有请求都会通过配置文件 web.xml 中配置的 DispatcherServlet,
+            进入配置文件 springmvc-servlet.xml（servlet-name 将与springmvc-servlet.xml文件名关联）;
+        3)根据配置文件 springmvc-servlet.xml，获取请求路径：/index 的请求处理类 IndexController.java;
+        4)跳转到 indexController.jsp 页面，并将传递的 message 信息显示出来。
+
+1.视图定位
+    访问地址：http://localhost:8080/iC1
+
